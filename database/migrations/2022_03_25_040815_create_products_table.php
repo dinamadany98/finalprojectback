@@ -24,12 +24,7 @@ return new class extends Migration
             $table->string('selling_price');
             $table->string('image');
             $table->string('quantity');
-            $table->string('tax');
-            $table->tinyInteger('status');
             $table->tinyInteger('trending');
-            $table->mediumText('meta_title');
-            $table->mediumText('meta_keywords');
-            $table->mediumText('meta_desc');
             $table->timestamps();
             $table->foreign('cat_id')
             ->references('id')
