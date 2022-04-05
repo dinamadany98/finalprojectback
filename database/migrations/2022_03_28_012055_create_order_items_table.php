@@ -15,11 +15,22 @@ return new class extends Migration
     {
         Schema::create('order_items', function (Blueprint $table) {
             $table->id();
-            $table->string('order_id');
-            $table->string('prod_id');
-            $table->string('quantity');
-            $table->string('price');
+            $table->unsignedBigInteger('order_id');
+            $table->unsignedBigInteger('product_id');
+            $table->integer('quantity');
+            $table->integer('price');
             $table->timestamps();
+            $table->foreign('product_id')
+            ->references('id')
+            ->on('products')
+            ->onUpdate('cascade')
+            ->onDelete('cascade');
+            $table->foreign('order_id')
+            ->references('id')
+            ->on('orders')
+            ->onUpdate('cascade')
+            ->onDelete('cascade');
+            $table->softDeletes();
         });
     }
 

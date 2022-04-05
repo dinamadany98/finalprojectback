@@ -15,15 +15,15 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('cat_id');
+            $table->unsignedBigInteger('categorie_id');
             $table->string('name');
             $table->string('slug');
             $table->mediumText('small_description');
             $table->longText('description');
-            $table->string('original_price');
-            $table->string('selling_price');
+            $table->integer('original_price');
+            $table->integer('selling_price');
             $table->string('image');
-            $table->string('quantity');
+            $table->integer('quantity');
             $table->string('tax');
             $table->tinyInteger('status');
             $table->tinyInteger('trending');
@@ -31,7 +31,7 @@ return new class extends Migration
             $table->mediumText('meta_keywords');
             $table->mediumText('meta_desc');
             $table->timestamps();
-            $table->foreign('cat_id')
+            $table->foreign('categorie_id')
             ->references('id')
             ->on('categories')
             ->onUpdate('cascade')

@@ -15,22 +15,28 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->string('user_id');
+            $table->unsignedBigInteger('user_id');
             $table->string('fname');
             $table->string('lname');
             $table->string('email');
-            $table->string('phone');
+            $table->integer('phone');
             $table->string('address1');
             $table->string('address2');
             $table->string('city');
             $table->string('state');
             $table->string('country');
             $table->string('pincode');
-            $table->string('total_price');
+            $table->integer('total_price');
             $table->tinyInteger('status')->default('0');
             $table->string('message')->nullable();
             $table->string('tracking_no')->nullable();
             $table->timestamps();
+            $table->foreign('user_id')
+            ->references('id')
+            ->on('users')
+            ->onUpdate('cascade')
+            ->onDelete('cascade');
+            $table->softDeletes();
         });
     }
 
