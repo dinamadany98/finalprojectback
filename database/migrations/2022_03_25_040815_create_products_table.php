@@ -23,13 +23,14 @@ return new class extends Migration
             $table->integer('original_price');
             $table->integer('selling_price');
             $table->string('image');
+<<<<<<< HEAD
             $table->integer('quantity');
             $table->string('tax');
             $table->tinyInteger('status');
+=======
+            $table->string('quantity');
+>>>>>>> d2e9bc652bcae723b4630c87e46ae0584883001c
             $table->tinyInteger('trending');
-            $table->mediumText('meta_title');
-            $table->mediumText('meta_keywords');
-            $table->mediumText('meta_desc');
             $table->timestamps();
             $table->foreign('categorie_id')
             ->references('id')
