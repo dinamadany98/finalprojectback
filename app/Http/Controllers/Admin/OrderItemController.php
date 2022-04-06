@@ -43,7 +43,7 @@ class OrderItemController extends Controller
         $inputs["price"]=$request["price"];
         $inputs["status"]=$request["status"];
         $inputs["total_price"]=$inputs["quantity"] * $inputs["price"];
-        dd($inputs["total_price"]);
+       
         $stororderitem=OrderItem::create($inputs);
       
         if($stor && $stororderitem){
