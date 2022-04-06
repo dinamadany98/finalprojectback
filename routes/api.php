@@ -1,12 +1,13 @@
 <?php
 
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\OrderItemController;
-use App\Models\Product;
+use App\Http\Controllers\Frontend\RatingController;
 use App\Http\Controllers\Frontend\FrontendController;
 
 /*

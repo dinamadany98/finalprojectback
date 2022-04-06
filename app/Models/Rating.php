@@ -11,7 +11,7 @@ class Rating extends Model
     protected $table = 'ratings';
     protected $fillable =[
         'user_id',
-        'prod_id',
+        'product_id',
         'stars_rated'
     ];
 }

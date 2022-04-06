@@ -17,16 +17,16 @@ class RatingController extends Controller
     public function store(Request $request)
     {
 
-        $stars_rated = $request->input('product_rating');
-        $prod_id = $request->input('prod_id');
+        $stars_rated = $request->input('stars_rated');
+        $prod_id = $request->input('product_id');
         $product_check = Product::where('id',$prod_id)->first();
         if($product_check){
-            $verified_purchase = Order::where('orders.user_id',Auth::id())
+            $verified_purchase = Order::where('orders.user_id','2')
             ->join('order_items','orders.id','order_items.order_id')
-            ->where('order_items.prod_id',$prod_id)->get();
+            ->where('order_items.product_id',$prod_id)->get();
 
             if($verified_purchase->count() > 0){
-                $existing_rating = Rating::where('user_id',Auth::id())->where('prod_id',$prod_id)->first();
+                $existing_rating = Rating::where('user_id','2')->where('product_id',$prod_id)->first();
 
                 if($existing_rating)
                 {
@@ -34,8 +34,8 @@ class RatingController extends Controller
                     $existing_rating->update();
                 }else{
                     Rating::create([
-                        'user_id'=> Auth::id(),
-                        'prod_id'=> $prod_id,
+                        'user_id'=> '2',
+                        'product_id'=> $prod_id,
                         'stars_rated' => $stars_rated
                     ]);
                 }
