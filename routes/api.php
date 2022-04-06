@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\User\CartController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,3 +29,6 @@ Route::resource('/categories', CategoryController::class);
 
 Route::resource('products',ProductController::class);
 Route::get('getproducts/{id}',[ProductController::class,'getProductsbyCategory']);
+
+
+Route::resource('cart',CartController::class);

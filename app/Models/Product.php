@@ -20,7 +20,7 @@ class Product extends Model
      ,'selling_price'
      ,'image'
      ,'quantity'
-     ,'cat_id',
+     ,'category_id',
      'trending'
      ];
 
@@ -30,6 +30,11 @@ class Product extends Model
          return $this->belongsTo(Category::class);
      }
 
+
+     public function users()
+     {
+         return $this->belongsToMany(User::class);
+     }
 
 
 }

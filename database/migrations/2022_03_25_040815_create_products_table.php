@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('categorie_id');
+            $table->unsignedBigInteger('category_id');
             $table->string('name');
             $table->string('slug');
             $table->mediumText('small_description');
@@ -24,11 +24,8 @@ return new class extends Migration
             $table->integer('selling_price');
             $table->string('image');
             $table->integer('quantity');
-            $table->string('tax');
-            $table->tinyInteger('status');
-            $table->tinyInteger('trending');
             $table->timestamps();
-            $table->foreign('categorie_id')
+            $table->foreign('category_id')
             ->references('id')
             ->on('categories')
             ->onUpdate('cascade')
