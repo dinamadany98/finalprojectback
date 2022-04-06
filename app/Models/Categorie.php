@@ -17,6 +17,6 @@ class Categorie extends Model
     ];
 
     function product(){
-        return $this->hasMany(Product::class);
+        return $this->hasMany(Product::class,'cat_id');
     }
 }
