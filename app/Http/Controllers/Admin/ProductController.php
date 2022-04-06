@@ -25,7 +25,7 @@ class ProductController extends Controller
             return $this->apiResponse($products,'DONE', 200);
 
             return $this->apiResponse(null,'Error', 404);
-        
+
 
     }
 
@@ -51,8 +51,8 @@ class ProductController extends Controller
           $request->validate
           ([
 
-            'name' =>'required | unique:products'
-            ,'slug' =>'required | unique:products'
+            'name' =>'required | unique:products,name'
+            ,'slug' =>'required | unique:products,slug'
             ,'small_description' =>'required'
             ,'description'   => 'required'
             ,'original_price'   => 'required |numeric'
@@ -60,6 +60,8 @@ class ProductController extends Controller
             ,'image'  =>'required'
            ,'quantity'   =>'required | numeric'
           ]);
+
+
 
 
 
