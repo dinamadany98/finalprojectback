@@ -2,9 +2,10 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\CategoryController;
-use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Frontend\FrontendController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,7 +21,11 @@ use App\Http\Controllers\Api\AuthController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-
+//-----------------------User Home Page-------------------------------
+Route::get('/',[FrontendController::class,'index']);
+Route::get('/view-category/{slug}',[FrontendController::class,'viewcategory']);
+Route::get('/category/{cat_slug}/{prod_slug}',[FrontendController::class,'viewproduct']);
+//--------------------------------------------------------------------
 Route::post("/register",[ AuthController::class, 'register']);
 Route::post("/login", [AuthController::class,'login']);
 
