@@ -5,12 +5,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\CategoryController;
-<<<<<<< HEAD
 use App\Http\Controllers\Admin\OrderItemController;
 use App\Models\Product;
-=======
 use App\Http\Controllers\Frontend\FrontendController;
->>>>>>> master
 
 /*
 |--------------------------------------------------------------------------
@@ -36,9 +33,6 @@ Route::post("/login", [AuthController::class,'login']);
 
 Route::resource('/categories', CategoryController::class);
 
-<<<<<<< HEAD
 Route::apiResource('/OrderItem',OrderItemController::class);
-=======
 Route::resource('products',ProductController::class);
 Route::get('getproducts/{id}',[ProductController::class,'getProductsbyCategory']);
->>>>>>> master
