@@ -34,8 +34,6 @@ class OrderItemController extends Controller
         $input["state"]=$request["state"];
         $input["country"]=$request["country"];
         $input["pincode"]=$request["pincode"];
-        $input["total_price"]=$request["total_price"];
-        $input["status"]=$request["status"];
         $input["message"]=$request["message"];
         $stor=Order::create($input);
         $orders=Order::all()->pluck('id')->last();
@@ -43,6 +41,8 @@ class OrderItemController extends Controller
         $inputs["product_id"]=$request["product_id"];
         $inputs["quantity"]=$request["quantity"];
         $inputs["price"]=$request["price"];
+        $inputs["status"]=$request["status"];
+        $inputs["total_price"]=$inputs["quantity"] * $inputs["price"];
         $stororderitem=OrderItem::create($inputs);
       
         if($stor && $stororderitem){
@@ -51,7 +51,30 @@ class OrderItemController extends Controller
             ]);
         }
     }
+    public function update(Request $request, OrderItem $OrderItem)
+    {
+        
+         $input= $request->all();
+        $input["total_price"]=$request["quantity"] * $request["price"];
+      
+       $inputs=$OrderItem->update($input);
+       
+        if($inputs){
+            return response()->json([
+                "msg"=>"done"
+            ]);
+        }
+    }
+        public function destroy(OrderItem $OrderItem)
+        {
+            $delet= $OrderItem->delete();
+            if($delet){
+                return response()->json([
+                    "msg"=>"done"
+                ]);
+            }
+           
+       
+        }    
+   
 }
-/*'order_id','product_id','quantity','price'
-'user_id','fname','lname','email','phone','address1','address2','city',
-              'state','country','pincode','total_price','status','message','tracking_no'*/
