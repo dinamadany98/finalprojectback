@@ -26,7 +26,6 @@ return new class extends Migration
             $table->integer('quantity');
             $table->string('tax');
             $table->tinyInteger('status');
-            $table->string('quantity');
             $table->tinyInteger('trending');
             $table->timestamps();
             $table->foreign('categorie_id')
