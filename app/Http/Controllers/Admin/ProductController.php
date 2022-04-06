@@ -6,7 +6,7 @@ use App\Http\Controllers\Api\ApiResponseTrait;
 use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
 use App\Models\Product;
-use App\Models\Categorie;
+use App\Models\Category;
 
 class ProductController extends Controller
 {
