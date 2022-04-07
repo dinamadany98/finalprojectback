@@ -27,6 +27,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('/',[FrontendController::class,'index']);
 Route::get('/view-category/{slug}',[FrontendController::class,'viewcategory']);
 Route::get('/category/{cat_slug}/{prod_slug}',[FrontendController::class,'viewproduct']);
+Route::post('add-rating',[RatingController::class,'store']);
 //--------------------------------------------------------------------
 Route::post("/register",[ AuthController::class, 'register']);
 Route::post("/login", [AuthController::class,'login']);
