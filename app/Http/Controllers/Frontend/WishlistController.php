@@ -52,13 +52,7 @@ class WishlistController extends Controller
     public function deletallwishlist()
     {
         $Wishlist=Wishlist::where('user_id',1)->delete();
-       // dd($Wishlist);
-       // $delet=$Wishlist->delete();
-        if($Wishlist){
-            return response()->json([
-                "msg"=>"done"
-            ]);
-        }
+    
     }
 
 
