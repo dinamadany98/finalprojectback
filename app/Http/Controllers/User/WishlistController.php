@@ -79,11 +79,13 @@ class WishlistController extends Controller
     public function destroy($id)
     {
         $user_id=2;
+
         $wishlist=Wishlist::where(['id'=>$id ,'user_id'=>$user_id])->first();
-       // return $this->apiResponse($wishlist,'DONE', 200);
-        $delete=$wishlist->destroy();
+        if($wishlist){
+        $delete=$wishlist->delete();
         if($delete)
         return $this->apiResponse(null,'DONE', 200);
+        }
 
         return $this->apiResponse(null,'Error', 404);
     }
