@@ -42,5 +42,8 @@ class Product extends Model
      public function OrderItems(){
         return $this->belongsToMany(OrderItem::class,'order_item_products');
     }
+    public function usercarts(){
+        return $this->belongsToManyResource(User::class,'wishlists');
+    }
 
 }

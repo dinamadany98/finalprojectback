@@ -10,7 +10,7 @@ use App\Http\Controllers\User\CartController;
 use App\Http\Controllers\Admin\OrderItemController;
 use App\Http\Controllers\Frontend\RatingController;
 use App\Http\Controllers\Frontend\FrontendController;
-
+use App\Http\Controllers\Frontend\WishlistController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -47,3 +47,8 @@ Route::get('getproducts/{id}',[ProductController::class,'getProductsbyCategory']
 Route::resource('cart',CartController::class);
 
 Route::delete('cartuser/{id}',[CartController::class,'deletecart']);
+
+Route::apiResource('/Wishlist',WishlistController::class);
+
+Route::delete('/Wishlists',[WishlistController::class,'deletallwishlist']);
+ 
