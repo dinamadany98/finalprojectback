@@ -18,6 +18,12 @@ class CartController extends Controller
     use ApiResponseTrait;
     public function index()
     {
+        $cart=Cart::get();
+        if($cart)
+        return $this->apiResponse($cart,'DONE', 200);
+
+         return $this->apiResponse(null,'Error', 404);
+
 
     }
 
@@ -52,12 +58,12 @@ class CartController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-      public function show($user_id)
+        public function show($user_id)
        {
-           $user=User::find($user_id);
-          $cart=$user->products()->get();
-           if($cart)
-            return $this->apiResponse($cart,'DONE', 200);
+            $user=User::find($user_id);
+            $cart=$user->products()->get();
+             if($cart)
+             return $this->apiResponse($cart,'DONE', 200);
 
             return $this->apiResponse(null,'Error', 404);
        }
@@ -82,7 +88,13 @@ class CartController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+           $cart=Cart::find($id);
+           $editcart=$cart->update($request->all());
+           if($editcart)
+           return $this->apiResponse($editcart,'DONE', 200);
+
+            return $this->apiResponse(null,'Error', 404);
+
     }
 
     /**
@@ -100,4 +112,16 @@ class CartController extends Controller
 
          return $this->apiResponse(null,'Error', 404);
     }
+
+     public function deleteCartbyUserId($user_id)
+     {
+        $cart=Cart::where('user_id',$user_id)->get();
+
+         $delete=$cart->delete();
+         if($delete)
+        return $this->apiResponse(null,'DONE', 200);
+        return $this->apiResponse(null,'Error', 404);
+
+
+     }
 }

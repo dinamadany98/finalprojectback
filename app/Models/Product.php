@@ -10,6 +10,9 @@ class Product extends Model
     use HasFactory;
 
 
+
+//product belonts to many orderitem
+
     protected $fillable=
     [
       'name'
@@ -27,14 +30,17 @@ class Product extends Model
 
      public function category()
      {
-         return $this->belongsTo(Category::class);
+         return $this->belongsTo(Category::class,'category_id');
      }
 
 
      public function users()
      {
-         return $this->belongsToMany(User::class);
+         return $this->belongsToMany(User::class,'carts');
      }
 
+     public function OrderItems(){
+        return $this->belongsToMany(OrderItem::class,'order_item_products');
+    }
 
 }

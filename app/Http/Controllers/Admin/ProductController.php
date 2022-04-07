@@ -47,6 +47,10 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+          // $user=auth()->user();
+
+
+       // if($user->tokenCan('crud_products')){
 
           $request->validate
           ([
@@ -83,6 +87,7 @@ class ProductController extends Controller
 
           if($products)
             return $this->apiResponse($products,'DONE', 200);
+       // }
 
             return $this->apiResponse(null,'Error', 404);
 

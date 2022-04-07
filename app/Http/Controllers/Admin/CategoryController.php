@@ -23,7 +23,7 @@ class CategoryController extends Controller
     {
         $category = Category::all();
         if($category){
-            return $this->apiResponse($category,'DONE', 200);
+            return $this->apiResponse($category,'DONE', 201);
         }else{
             return $this->apiResponse(null,'Error', 404);
         }
@@ -59,14 +59,20 @@ class CategoryController extends Controller
         }
         $category->image = $filename;
 
+        $request->validate([
+            'name'=>'required|string',
+            'slug'=>'required|string',
+            'description'=>'required'
+        ]);
+
         $category->name = $request->input('name');
         $category->slug = $request->input('slug');
         $category->description = $request->input('description');
         $category->save();
         if($category){
-        return $this->apiResponse($category,'DONE', 200);
+        return $this->apiResponse($category,'DONE', 201);
         }else{
-            return $this->apiResponse(null,'Erorr', 400);
+            return $this->apiResponse(null,'Erorr', 404);
         }
 
     }
@@ -81,9 +87,9 @@ class CategoryController extends Controller
     {
         $category = Category::find($id);
         if($category){
-            return $this->apiResponse($category,'DONE', 200);
+            return $this->apiResponse($category,'DONE', 201);
         }else{
-            return $this->apiResponse(null,'Error', 400);
+            return $this->apiResponse(null,'Error', 404);
         }
     }
 
@@ -97,9 +103,9 @@ class CategoryController extends Controller
     {
         $category = Category::find($id);
         if($category){
-            return $this->apiResponse($category,'DONE', 200);
+            return $this->apiResponse($category,'DONE', 201);
         }else{
-            return $this->apiResponse(null,'Error', 400);
+            return $this->apiResponse(null,'Error', 404);
         }
     }
 
@@ -130,9 +136,9 @@ class CategoryController extends Controller
         $category->description = $request->input('description');
         $category->update();
         if($category){
-            return $this->apiResponse($category,'DONE', 200);
+            return $this->apiResponse($category,'DONE', 201);
         }else{
-            return $this->apiResponse(null,'Error', 400);
+            return $this->apiResponse(null,'Error', 404);
         }
     }
 
@@ -152,6 +158,10 @@ class CategoryController extends Controller
             }
         }
         $category->delete();
-        return $this->apiResponse(null,'DONE', 200);
+        if($category){
+            return $this->apiResponse(null,'DONE', 201);
+        }else{
+            return $this->apiResponse(null,'Error', 404);
+        }
     }
 }

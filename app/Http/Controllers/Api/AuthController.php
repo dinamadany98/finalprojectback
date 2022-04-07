@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers\Api;
-
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -15,12 +14,14 @@ class AuthController extends Controller
         $input = $request->validate([
             'name'=>'required | string',
             'email'=>'required | string | email | unique:users,email',
-            'password' => 'required '
+            'password' => 'required ' ,
+            'role' =>'required'
         ]);
         $user= User::create([
             'name'=>$input["name"],
             'email'=>$input["email"],
             'password' =>Hash::make($input["password"]),
+            'role' =>$input['role']
         ]);
 
         $token = $user->createToken('usertoken')->plainTextToken;
@@ -34,9 +35,15 @@ class AuthController extends Controller
         ];
         return response($response,201);
     }
-    public function login(Request $request){
-        $user= User::where('email',$request['email'])->firstOrFail();
+
+         public function login(Request $request){
+         $user= User::where('email',$request['email'])->firstOrFail();
+
+        if($user->role=='admin')
+        $token = $user->createToken('auth_token',['crud_products'])->plainTextToken;
+        else
         $token = $user->createToken('auth_token')->plainTextToken;
+
         return response()->json(
             [
                 "msg"=>"done",
