@@ -29,7 +29,7 @@ class FrontendController extends Controller
     {
         if (Category::where('slug', $slug)->exists()) {
             $category = Category::where('slug', $slug)->first();
-            $products = Product::where('cat_id', $category->id)->get();
+            $products = Product::where('category_id', $category->id)->get();
             if ($category && $products) {
                 return $this->apiResponse([$category, $products], 'DONE', 200);
             } else {
