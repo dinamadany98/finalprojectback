@@ -113,15 +113,13 @@ class CartController extends Controller
          return $this->apiResponse(null,'Error', 404);
     }
 
-     public function deleteCartbyUserId($user_id)
+      public function deletecart($user_id)
      {
-        $cart=Cart::where('user_id',$user_id)->get();
+         $delete=Cart::where('user_id',$user_id)->delete();
 
-         $delete=$cart->delete();
          if($delete)
         return $this->apiResponse(null,'DONE', 200);
         return $this->apiResponse(null,'Error', 404);
-
 
      }
 }
