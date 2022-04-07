@@ -39,10 +39,7 @@ class AuthController extends Controller
          public function login(Request $request){
          $user= User::where('email',$request['email'])->firstOrFail();
 
-        if($user->role=='admin')
-        $token = $user->createToken('auth_token',['crud_products'])->plainTextToken;
-        else
-        $token = $user->createToken('auth_token')->plainTextToken;
+         $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json(
             [
