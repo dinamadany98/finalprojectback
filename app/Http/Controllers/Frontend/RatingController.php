@@ -16,7 +16,7 @@ class RatingController extends Controller
 
     public function store(Request $request)
     {
-
+            // replace number 2 with Auth::id();
         $stars_rated = $request->input('stars_rated');
         $prod_id = $request->input('product_id');
         $product_check = Product::where('id',$prod_id)->first();
@@ -27,7 +27,6 @@ class RatingController extends Controller
 
             if($verified_purchase->count() > 0){
                 $existing_rating = Rating::where('user_id','2')->where('product_id',$prod_id)->first();
-
                 if($existing_rating)
                 {
                     $existing_rating->stars_rated = $stars_rated ;
