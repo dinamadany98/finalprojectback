@@ -11,10 +11,9 @@ class WishlistController extends Controller
 {   
 
     public function index()
-    {/*
-        $Cource=Cource::all();
-        return view("mycoucrce",["data"=>$Cource]);
-    */ }
+    {
+        
+     }
 
 
     public function store(Request $request)
