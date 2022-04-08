@@ -47,10 +47,9 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-          // $user=auth()->user();
-
-
-       // if($user->tokenCan('crud_products')){
+          $user=auth()->user();
+         dd($user->tokenCan('crud_products'));
+        if($user->tokenCan('crud_products')){
 
           $request->validate
           ([
@@ -86,8 +85,8 @@ class ProductController extends Controller
           $products=Product::create($product);
 
           if($products)
-            return $this->apiResponse($products,'DONE', 200);
-       // }
+            return $this->apiResponse([$products,$user],'DONE', 200);
+        }
 
             return $this->apiResponse(null,'Error', 404);
 

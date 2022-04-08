@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
+
 class AuthController extends Controller
 {
     //
@@ -37,8 +38,13 @@ class AuthController extends Controller
     }
 
          public function login(Request $request){
-         $user= User::where('email',$request['email'])->firstOrFail();
 
+         $user= User::where('email',$request['email'])->firstOrFail();
+         if($user->role=='admin')
+         {
+         $token = $user->createToken('auth_token',['crud_products'])->plainTextToken;
+
+         }
          $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json(

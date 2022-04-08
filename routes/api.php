@@ -41,11 +41,11 @@ Route::post("/register",[AuthController::class,'register']);
 
 Route::post("/login", [AuthController::class,'login']);
 
-Route::resource('/categories', CategoryController::class);
+Route::resource('/categories', CategoryController::class)->middleware('auth:sanctum');
 
 Route::apiResource('/OrderItem',OrderItemController::class);
 
-Route::resource('products',ProductController::class);
+Route::resource('products',ProductController::class)->middleware('auth:sanctum');
 
 Route::get('getproducts/{id}',[ProductController::class,'getProductsbyCategory']);
 

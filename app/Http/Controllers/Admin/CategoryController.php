@@ -48,7 +48,10 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
 
-        $category = new Category();
+        $user=auth()->user();
+        if($user->tokenCan('crud_categoy')){
+
+         $category = new Category();
         $filename='';
         if($request->hasFile('image')){
             $file = $request->file('image');
@@ -74,6 +77,7 @@ class CategoryController extends Controller
         }else{
             return $this->apiResponse(null,'Erorr', 404);
         }
+         }
 
     }
 
