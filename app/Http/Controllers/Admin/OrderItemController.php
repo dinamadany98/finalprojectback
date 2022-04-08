@@ -11,15 +11,30 @@ class OrderItemController extends Controller
 {
     public function index()
     {
-        $orders=OrderItem::all();
-        /*// $orders =OrderItem::all()->pluck('product_id');
-         $orders =OrderItem::all()->pluck('order_id');
-       
-      */
-         return $orders;
+      
+        $OrderItem=OrderItem::get();
+        $orders=Order::all();
+        $arr=[];
+        foreach($orders as $key => $value){
+
+            $data=$value->productss()->get();
+            $data2=$data->pluck("pivot.order_id")[0];
+            
+            $data3=$data->pluck("pivot.product_id");
+           $OrderItem=OrderItem::whereIn('product_id',$data3)->
+           where('order_id',$data2)
+           ->get();
+        
+           // $OrderItem=OrderItem::where(['order_id'=>$data->order_id,'product_id'=>$data->product_id])->get();
+          // $datas=$data->join('order_items', 'data.order_id', '=', 'order_items.order_id');
+          // dd($OrderItem);
+           $dat=array_push($arr,[$data,$OrderItem]);
+        }
 
 
 
+
+return $arr;
     }
     public function store(Request $request)
     {
@@ -36,22 +51,44 @@ class OrderItemController extends Controller
         $input["pincode"]=$request["pincode"];
         $input["message"]=$request["message"];
         $stor=Order::create($input);
-        $orders=Order::all()->pluck('id')->last();
-        $inputs["order_id"]=$orders;
-        $inputs["product_id"]=$request["product_id"];
-        $inputs["quantity"]=$request["quantity"];
-        $inputs["price"]=$request["price"];
-        $inputs["status"]=$request["status"];
-        $inputs["total_price"]=$inputs["quantity"] * $inputs["price"];
-       
-        $stororderitem=OrderItem::create($inputs);
+        $orders=Order::all()->pluck('id')->last(); 
+      $cart=Cart::get();
+      foreach($cart as $key => $value){
+       $price=Product::where('id','=',$value->product_id)->value('selling_price');
+      Product::where('id','=',$value->product_id)->decrement('quantity',$value->prod_qty);
+       $totalprice=$price * $value->prod_qty;
+        OrderItem::create([
+            'order_id'=>$orders,
+            'product_id'=>$value->product_id,
+            'quantity'=>$value->prod_qty,
+            'price'=>$price,
+            'total_price'=>$totalprice,
+        ]);
+      }
+      Cart::where('user_id',1)->delete();
       
-        if($stor && $stororderitem){
+        if($stor){
             return response()->json([
                 "msg"=>"done"
             ]);
         }
     }
+
+
+
+    public function show($userid)
+    {
+    
+        $orders=Order::all();
+         $data=$value->productss()->get();
+           
+        
+    }
+
+
+
+
+
     public function update(Request $request, OrderItem $OrderItem)
     {
         

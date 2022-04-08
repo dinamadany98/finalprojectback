@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\OrderItemController;
 use App\Http\Controllers\Frontend\RatingController;
 use App\Http\Controllers\Frontend\ReviewController;
 use App\Http\Controllers\Frontend\FrontendController;
+use App\Http\Controllers\User\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,6 +41,8 @@ Route::put('/update-review',[ReviewController::class,'update']);
 Route::post("/register",[AuthController::class,'register']);
 
 Route::post("/login", [AuthController::class,'login']);
+
+Route::apiResource('/users',UserController::class);
 
 Route::resource('/categories', CategoryController::class);
 
