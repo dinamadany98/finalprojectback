@@ -47,7 +47,7 @@ Route::get('getproducts/{id}',[ProductController::class,'getProductsbyCategory']
 
 Route::resource('cart',CartController::class);
 
-Route::delete('cartuser/{id}',[CartController::class,'deletecart']);
+Route::delete('cartuser',[CartController::class,'deletecart']);
 
 Route::resource('wishlist',WishlistController::class);
 

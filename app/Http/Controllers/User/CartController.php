@@ -59,10 +59,11 @@ class CartController extends Controller
      */
         public function show($user_id)
        {
-             $user=User::find($user_id);
-             $cart=$user->products()->get();
+               $user=User::find($user_id);
+               $cart=$user->products()->get();
+              $cart_details=Cart::where('user_id',$user_id)->get();
              if($cart)
-             return $this->apiResponse($cart,'DONE', 200);
+             return $this->apiResponse([$cart,$cart_details],'DONE', 200);
 
             return $this->apiResponse(null,'Error', 404);
        }
@@ -112,8 +113,10 @@ class CartController extends Controller
          return $this->apiResponse(null,'Error', 404);
     }
 
-      public function deletecart($user_id)
+      public function deletecart()
       {
+         $user_id=1;
+
          $delete=Cart::where('user_id',$user_id)->delete();
 
          if($delete)
