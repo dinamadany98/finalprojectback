@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Api\ApiResponseTrait;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
@@ -10,6 +11,8 @@ use Illuminate\Support\Facades\Hash;
 class AuthController extends Controller
 {
     //
+    use ApiResponseTrait;
+
      public function register(Request $request)
     {
         $input = $request->validate([
@@ -42,7 +45,7 @@ class AuthController extends Controller
          $user= User::where('email',$request['email'])->firstOrFail();
          if($user->role=='admin')
          {
-         $token = $user->createToken('auth_token',['crud_products'])->plainTextToken;
+         $token = $user->createToken('auth_token',['all:products'])->plainTextToken;
 
          }
          $token = $user->createToken('auth_token')->plainTextToken;
@@ -52,5 +55,17 @@ class AuthController extends Controller
                 "msg"=>"done",
                 "token"=>$token
             ]);
+    }
+
+
+    public function logout()
+    {
+        $user=auth()->user();
+
+       $delete=$user->tokens()->delete();
+       if($delete)
+        return $this->apiResponse(null,'DONE', 200);
+
+         return $this->apiResponse(null,'Error', 404);
     }
 }

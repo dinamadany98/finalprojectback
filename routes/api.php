@@ -41,11 +41,15 @@ Route::post("/register",[AuthController::class,'register']);
 
 Route::post("/login", [AuthController::class,'login']);
 
-Route::resource('/categories', CategoryController::class)->middleware('auth:sanctum');
+Route::delete("/logout", [AuthController::class,'logout'])->middleware('auth:sanctum');
+
+Route::resource('/categories', CategoryController::class)->
+middleware('auth:sanctum');
 
 Route::apiResource('/OrderItem',OrderItemController::class);
 
-Route::resource('products',ProductController::class)->middleware('auth:sanctum');
+Route::resource('products',ProductController::class)->
+middleware(['auth:sanctum','abilities:check-status,place-orders']);
 
 Route::get('getproducts/{id}',[ProductController::class,'getProductsbyCategory']);
 

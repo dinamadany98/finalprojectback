@@ -48,8 +48,8 @@ class ProductController extends Controller
     public function store(Request $request)
     {
           $user=auth()->user();
-         dd($user->tokenCan('crud_products'));
-        if($user->tokenCan('crud_products')){
+          dd($user->tokenCan('all:products'));
+        if($user->tokenCan('all:products')){
 
           $request->validate
           ([
