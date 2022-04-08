@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\OrderItem;
 use App\Models\Order;
-
+use App\Models\User;
+use App\Models\Cart;
+use App\Models\Product;
 class OrderItemController extends Controller
 {
     public function index()
@@ -78,13 +80,15 @@ return $arr;
 
     public function show($userid)
     {
-    
-        $orders=Order::all();
-         $data=$value->productss()->get();
+        $user=User::find($userid);
+         $data=$user->Order()->get()->pluck("id");
+        $Order=OrderItem::whereIn("order_id",$data)->get();
+        //$d= $data->productss()->get();
+         //dd($Order);
+         return $Order;
            
         
     }
-
 
 
 
