@@ -114,5 +114,9 @@ return $arr;
            
        
         }    
-   
+        public function updatestatus($orderid)
+        {
+            OrderItem::where('order_id','=',$orderid)->update(array('status' => '1'));
+      
+        }
 }

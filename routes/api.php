@@ -48,6 +48,8 @@ Route::resource('/categories', CategoryController::class);
 
 Route::apiResource('/OrderItem',OrderItemController::class);
 
+Route::put('/updatestatus/{orderid}',[OrderItemController::class,"updatestatus"]);
+
 Route::resource('products',ProductController::class);
 
 Route::get('getproducts/{id}',[ProductController::class,'getProductsbyCategory']);
