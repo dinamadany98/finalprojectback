@@ -4,12 +4,13 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\User\CartController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\CategoryController;
-use App\Http\Controllers\User\CartController;
 use App\Http\Controllers\User\WishlistController;
 use App\Http\Controllers\Admin\OrderItemController;
 use App\Http\Controllers\Frontend\RatingController;
+use App\Http\Controllers\Frontend\ReviewController;
 use App\Http\Controllers\Frontend\FrontendController;
 
 /*
@@ -31,6 +32,10 @@ Route::get('/',[FrontendController::class,'index']);
 Route::get('/view-category/{slug}',[FrontendController::class,'viewcategory']);
 Route::get('/category/{cat_slug}/{prod_slug}',[FrontendController::class,'viewproduct']);
 Route::post('add-rating',[RatingController::class,'store']);
+Route::post('/add-review',[ReviewController::class,'store']);
+Route::get('/add-review/{slug}/userreview',[ReviewController::class,'add']);
+Route::get('/edit-review/{slug}/userreview',[ReviewController::class,'edit']);
+Route::put('/update-review',[ReviewController::class,'update']);
 //--------------------------------------------------------------------
 Route::post("/register",[AuthController::class,'register']);
 
