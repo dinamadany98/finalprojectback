@@ -55,7 +55,10 @@ class User extends Authenticatable
      {
          return $this->belongsToMany(Product::class,'wishlists');
      }
-
+     public function orderuser()
+     {
+         return $this->belongsToMany(Product::class,'order_items');
+     }
 
     //user has meny order
     function Order(){
