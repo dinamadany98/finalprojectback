@@ -50,3 +50,5 @@ Route::resource('cart',CartController::class);
 Route::delete('cartuser/{id}',[CartController::class,'deletecart']);
 
 Route::resource('wishlist',WishlistController::class);
+
+Route::delete('wishlistuser',[WishlistController::class,'deletewishlist']);

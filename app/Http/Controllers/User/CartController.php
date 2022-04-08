@@ -113,12 +113,12 @@ class CartController extends Controller
     }
 
       public function deletecart($user_id)
-     {
+      {
          $delete=Cart::where('user_id',$user_id)->delete();
 
          if($delete)
         return $this->apiResponse(null,'DONE', 200);
         return $this->apiResponse(null,'Error', 404);
 
-     }
+       }
 }

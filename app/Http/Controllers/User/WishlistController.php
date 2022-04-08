@@ -76,17 +76,28 @@ class WishlistController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Wishlist $wishlist)
     {
-        $user_id=2;
-
-        $wishlist=Wishlist::where(['id'=>$id ,'user_id'=>$user_id])->first();
         if($wishlist){
         $delete=$wishlist->delete();
         if($delete)
         return $this->apiResponse(null,'DONE', 200);
         }
-
         return $this->apiResponse(null,'Error', 404);
     }
+
+    public function deletewishlist()
+    {
+        $user_id=1;
+
+        $delete=Wishlist::where('user_id',$user_id)->delete();
+
+        if($delete)
+        return $this->apiResponse(null,'DONE', 200);
+        return $this->apiResponse(null,'Error', 404);
+
+
+    }
+
+
 }
