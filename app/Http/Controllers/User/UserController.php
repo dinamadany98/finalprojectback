@@ -7,8 +7,9 @@ use Illuminate\Http\Request;
 use App\Models\User;
 class UserController extends Controller
 {
-    public function show($userid)
+    public function index()
     {
+        $userid=1;
         $user=User::find($userid);
         return $user;
     
