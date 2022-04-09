@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\OrderItemController;
 use App\Http\Controllers\Frontend\RatingController;
 use App\Http\Controllers\Frontend\ReviewController;
 use App\Http\Controllers\Frontend\FrontendController;
+use App\Http\Controllers\User\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -54,6 +55,7 @@ Route::post("/register",[AuthController::class,'register']);
 
 Route::post("/login", [AuthController::class,'login']);
 
+<<<<<<< HEAD
 Route::delete("/logout", [AuthController::class,'logout'])
 ->middleware('auth:sanctum');
 
@@ -64,6 +66,17 @@ Route::apiResource('/OrderItem',OrderItemController::class);
 
 Route::resource('products',ProductController::class)->
 middleware('auth:sanctum');
+=======
+Route::apiResource('/users',UserController::class);
+
+Route::resource('/categories', CategoryController::class);
+
+Route::apiResource('/OrderItem',OrderItemController::class);
+
+Route::put('/updatestatus/{orderid}',[OrderItemController::class,"updatestatus"]);
+
+Route::resource('products',ProductController::class);
+>>>>>>> 2ec761259f965174783a7154e325c904d9e90857
 
 Route::get('getproducts/{id}',[ProductController::class,'getProductsbyCategory'])
 ->middleware('auth:sanctum');
