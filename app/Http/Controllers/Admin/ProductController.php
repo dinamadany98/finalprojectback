@@ -48,8 +48,7 @@ class ProductController extends Controller
     public function store(Request $request)
     {
           $user=auth()->user();
-          dd($user->tokenCan('all:products'));
-        if($user->tokenCan('all:products')){
+         if($user->role=="manager"){
 
           $request->validate
           ([
@@ -63,10 +62,6 @@ class ProductController extends Controller
             ,'image'  =>'required'
            ,'quantity'   =>'required | numeric'
           ]);
-
-
-
-
 
             $nameimage='';
             if($request->hasFile('image'))
@@ -82,11 +77,11 @@ class ProductController extends Controller
             $product=$request->all();
             $product['image']=$nameimage;
 
-          $products=Product::create($product);
+           $products=Product::create($product);
 
-          if($products)
+           if($products)
             return $this->apiResponse([$products,$user],'DONE', 200);
-        }
+            }
 
             return $this->apiResponse(null,'Error', 404);
 
@@ -102,9 +97,9 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        $product=Product::find($id);
+         $product=Product::find($id);
 
-        if($product)
+           if($product)
             return $this->apiResponse($product,'DONE', 200);
 
             return $this->apiResponse(null,'Error', 404);
@@ -132,12 +127,17 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
+          $user=auth()->user();
+          if($user->role=="manager"){
            $product=$product->update($request->all());
 
            if($product)
             return $this->apiResponse($product,'DONE', 200);
 
+            }
+
             return $this->apiResponse(null,'Error', 404);
+
 
 
     }
@@ -150,6 +150,8 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
+        $user=auth()->user();
+        if($user->role=="manager"){
         $product=Product::find($id);
         if(!$product)
         {
@@ -159,6 +161,7 @@ class ProductController extends Controller
         $delete=$product->delete();
         if($delete)
          return $this->apiResponse(null,'DONE', 200);
+       }
 
          return $this->apiResponse(null,'Error', 404);
 
@@ -172,8 +175,10 @@ class ProductController extends Controller
         $category=Category::find($category_id);
 
         $products= $category->product()->get();
-
+        if($products)
         return $this->apiResponse($products,'DONE', 200);
+
+        return $this->apiResponse(null,'Error', 404);
 
 
     }

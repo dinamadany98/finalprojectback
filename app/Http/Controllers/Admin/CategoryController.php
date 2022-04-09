@@ -49,7 +49,7 @@ class CategoryController extends Controller
     {
 
         $user=auth()->user();
-        if($user->tokenCan('crud_categoy')){
+        if($user->role=="manager"){
 
          $category = new Category();
         $filename='';
@@ -74,10 +74,11 @@ class CategoryController extends Controller
         $category->save();
         if($category){
         return $this->apiResponse($category,'DONE', 201);
-        }else{
-            return $this->apiResponse(null,'Erorr', 404);
         }
+
          }
+
+         return $this->apiResponse(null,'Erorr', 404);
 
     }
 
@@ -89,12 +90,15 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
+
         $category = Category::find($id);
         if($category){
             return $this->apiResponse($category,'DONE', 201);
-        }else{
-            return $this->apiResponse(null,'Error', 404);
         }
+
+
+         return $this->apiResponse(null,'Error', 404);
+
     }
 
     /**
@@ -105,12 +109,15 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
+        $user=auth()->user();
+        if($user->role=="manager"){
         $category = Category::find($id);
         if($category){
             return $this->apiResponse($category,'DONE', 201);
-        }else{
-            return $this->apiResponse(null,'Error', 404);
         }
+         }
+            return $this->apiResponse(null,'Error', 404);
+
     }
 
     /**
@@ -122,6 +129,8 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $user=auth()->user();
+        if($user->role=="manager"){
         $category = Category::find($id);
         if($request->hasFile('image')){
             $path = 'assets/uploads/category'.$category->image;
@@ -141,9 +150,10 @@ class CategoryController extends Controller
         $category->update();
         if($category){
             return $this->apiResponse($category,'DONE', 201);
-        }else{
-            return $this->apiResponse(null,'Error', 404);
         }
+         }
+            return $this->apiResponse(null,'Error', 404);
+
     }
 
     /**
@@ -154,6 +164,8 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
+        $user=auth()->user();
+        if($user->role=="manager"){
         $category = Category::find($id);
         if($category->image){
             $path = 'assets/uploads/category'.$category->image;
@@ -161,11 +173,13 @@ class CategoryController extends Controller
                 File::delete($path);
             }
         }
-        $category->delete();
-        if($category){
+          $category->delete();
+           if($category){
             return $this->apiResponse(null,'DONE', 201);
-        }else{
+             }
+           }
+
             return $this->apiResponse(null,'Error', 404);
-        }
+
     }
 }

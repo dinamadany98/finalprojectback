@@ -29,19 +29,33 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 //-----------------------User Home Page-------------------------------
 Route::get('/',[FrontendController::class,'index']);
-Route::get('/view-category/{slug}',[FrontendController::class,'viewcategory']);
-Route::get('/category/{cat_slug}/{prod_slug}',[FrontendController::class,'viewproduct']);
-Route::post('add-rating',[RatingController::class,'store']);
-Route::post('/add-review',[ReviewController::class,'store']);
-Route::get('/add-review/{slug}/userreview',[ReviewController::class,'add']);
-Route::get('/edit-review/{slug}/userreview',[ReviewController::class,'edit']);
-Route::put('/update-review',[ReviewController::class,'update']);
+Route::get('/view-category/{slug}',[FrontendController::class,'viewcategory'])
+->middleware('auth:sanctum');
+
+Route::get('/category/{cat_slug}/{prod_slug}',[FrontendController::class,'viewproduct'])
+->middleware('auth:sanctum');
+
+Route::post('add-rating',[RatingController::class,'store'])
+->middleware('auth:sanctum');
+
+Route::post('/add-review',[ReviewController::class,'store'])
+->middleware('auth:sanctum');
+
+Route::get('/add-review/{slug}/userreview',[ReviewController::class,'add'])
+->middleware('auth:sanctum');
+
+Route::get('/edit-review/{slug}/userreview',[ReviewController::class,'edit'])
+->middleware('auth:sanctum');
+
+Route::put('/update-review',[ReviewController::class,'update'])
+->middleware('auth:sanctum');
 //--------------------------------------------------------------------
 Route::post("/register",[AuthController::class,'register']);
 
 Route::post("/login", [AuthController::class,'login']);
 
-Route::delete("/logout", [AuthController::class,'logout'])->middleware('auth:sanctum');
+Route::delete("/logout", [AuthController::class,'logout'])
+->middleware('auth:sanctum');
 
 Route::resource('/categories', CategoryController::class)->
 middleware('auth:sanctum');
@@ -49,15 +63,20 @@ middleware('auth:sanctum');
 Route::apiResource('/OrderItem',OrderItemController::class);
 
 Route::resource('products',ProductController::class)->
-middleware(['auth:sanctum','abilities:check-status,place-orders']);
+middleware('auth:sanctum');
 
-Route::get('getproducts/{id}',[ProductController::class,'getProductsbyCategory']);
+Route::get('getproducts/{id}',[ProductController::class,'getProductsbyCategory'])
+->middleware('auth:sanctum');
 
 
-Route::resource('cart',CartController::class);
+Route::resource('cart',CartController::class)
+->middleware('auth:sanctum');
 
-Route::delete('cartuser',[CartController::class,'deletecart']);
+Route::delete('cartuser',[CartController::class,'deletecart'])
+->middleware('auth:sanctum');
 
-Route::resource('wishlist',WishlistController::class);
+Route::resource('wishlist',WishlistController::class)
+->middleware('auth:sanctum');
 
-Route::delete('wishlistuser',[WishlistController::class,'deletewishlist']);
+Route::delete('wishlistuser',[WishlistController::class,'deletewishlist'])
+->middleware('auth:sanctum');

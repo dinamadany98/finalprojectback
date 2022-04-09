@@ -18,11 +18,16 @@ class CartController extends Controller
     use ApiResponseTrait;
     public function index()
     {
-        $cart=Cart::get();
-        if($cart)
-        return $this->apiResponse($cart,'DONE', 200);
+         $current_user=auth()->user();
+        if($current_user->role=="user"){
+           $user=User::find($current_user->id);
+           $cart=$user->products()->get();
+          $cart_details=Cart::where('user_id',$current_user->id)->get();
+         if($cart)
+         return $this->apiResponse([$cart,$cart_details],'DONE', 200);
+        }
 
-         return $this->apiResponse(null,'Error', 404);
+        return $this->apiResponse(null,'Error', 404);
 
     }
 
@@ -44,9 +49,16 @@ class CartController extends Controller
      */
     public function store(Request $request)
     {
-            $cart=Cart::create($request->all());
+        $user=auth()->user();
+        if($user->role=="user"){
+
+            $input=$request->all();
+            $input['user_id']=$user->id;
+            $cart=Cart::create($input);
             if($cart)
             return $this->apiResponse($cart,'DONE', 200);
+
+        }
 
             return $this->apiResponse(null,'Error', 404);
     }
@@ -57,16 +69,10 @@ class CartController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-        public function show($user_id)
-       {
-               $user=User::find($user_id);
-               $cart=$user->products()->get();
-              $cart_details=Cart::where('user_id',$user_id)->get();
-             if($cart)
-             return $this->apiResponse([$cart,$cart_details],'DONE', 200);
+         public function show()
+         {
 
-            return $this->apiResponse(null,'Error', 404);
-       }
+        }
 
     /**
      * Show the form for editing the specified resource.
@@ -88,10 +94,13 @@ class CartController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $user=auth()->user();
+         if($user->role=="user"){
            $cart=Cart::find($id);
            $editcart=$cart->update($request->all());
            if($editcart)
            return $this->apiResponse($editcart,'DONE', 200);
+         }
 
             return $this->apiResponse(null,'Error', 404);
 
@@ -105,19 +114,22 @@ class CartController extends Controller
      */
     public function destroy($id)
     {
-         $cart=Cart::find($id);
-         $delete=$cart->destroy();
+        $user=auth()->user();
+        if($user->role=="user"){
+         $cart=Cart::where('user_id',$user->id)->find($id);
+         $delete=$cart->delete();
          if($delete)
          return $this->apiResponse(null,'DONE', 200);
+        }
 
          return $this->apiResponse(null,'Error', 404);
     }
 
       public function deletecart()
       {
-         $user_id=1;
+         $user=auth()->user();
 
-         $delete=Cart::where('user_id',$user_id)->delete();
+         $delete=Cart::where('user_id',$user->id)->delete();
 
          if($delete)
         return $this->apiResponse(null,'DONE', 200);
