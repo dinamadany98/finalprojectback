@@ -118,9 +118,9 @@ return $arr;
            
        
         }    
-        public function updatestatus($orderid)
+        public function updatestatus($id)
         {
-            OrderItem::where('order_id','=',$orderid)->update(array('status' => '1'));
+            Order::where('id','=',$id)->update(array('status' => '1'));
       
         }
 }

@@ -28,6 +28,7 @@ return new class extends Migration
             $table->string('pincode');
             $table->string('message')->nullable();
             $table->string('tracking_no')->nullable();
+            $table->tinyInteger('status')->default('0');
             $table->timestamps();
             $table->foreign('user_id')
             ->references('id')
