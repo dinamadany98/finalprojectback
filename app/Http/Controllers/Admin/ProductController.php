@@ -22,7 +22,7 @@ class ProductController extends Controller
         $products=Product::get();
 
         if($products)
-            return $this->apiResponse($products,'DONE', 200);
+            return response()->json($products);
 
             return $this->apiResponse(null,'Error', 404);
 
@@ -80,7 +80,8 @@ class ProductController extends Controller
            $products=Product::create($product);
 
            if($products)
-            return $this->apiResponse([$products,$user],'DONE', 200);
+//             return $this->apiResponse([$products,$user],'DONE', 200);
+                return response()->json($products);
             }
 
             return $this->apiResponse(null,'Error', 404);
@@ -100,7 +101,8 @@ class ProductController extends Controller
          $product=Product::find($id);
 
            if($product)
-            return $this->apiResponse($product,'DONE', 200);
+//             return $this->apiResponse($product,'DONE', 200);
+                return response()->json($products);
 
             return $this->apiResponse(null,'Error', 404);
 
@@ -132,7 +134,8 @@ class ProductController extends Controller
            $product=$product->update($request->all());
 
            if($product)
-            return $this->apiResponse($product,'DONE', 200);
+//             return $this->apiResponse($product,'DONE', 200);
+                return response()->json($products);
 
             }
 
@@ -160,7 +163,8 @@ class ProductController extends Controller
 
         $delete=$product->delete();
         if($delete)
-         return $this->apiResponse(null,'DONE', 200);
+//          return $this->apiResponse(null,'DONE', 200);
+             return response()->json($products);
        }
 
          return $this->apiResponse(null,'Error', 404);
@@ -176,7 +180,8 @@ class ProductController extends Controller
 
         $products= $category->product()->get();
         if($products)
-        return $this->apiResponse($products,'DONE', 200);
+//         return $this->apiResponse($products,'DONE', 200);
+             return response()->json($products);
 
         return $this->apiResponse(null,'Error', 404);
 
