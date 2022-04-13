@@ -19,17 +19,16 @@ class ProductController extends Controller
 
     public function index()
     {
-        $user = auth()->user();
-        if ($user->role == "manager" || $user->role == "admin") {
-        $products=Product::get();
 
+        $products=Product::get();
         if($products)
-            return response()->json($products);
+        return response()->json($products);
+            return $this->apiResponse($products,'DONE', 200);
 
             return $this->apiResponse(null,'Error', 404);
 
         }
-    }
+    
 
     /**
      * Show the form for creating a new resource.
@@ -50,7 +49,7 @@ class ProductController extends Controller
     public function store(Request $request)
     {
           $user=auth()->user();
-         if($user->role=="manager"){
+         if($user->role=="manager" || $user->role=="admin"){
 
           $request->validate
           ([
@@ -61,7 +60,7 @@ class ProductController extends Controller
             ,'description'   => 'required'
             ,'original_price'   => 'required |numeric'
            ,'selling_price'   =>'required |numeric'
-            ,'image'  =>'required'
+           // ,'image'  =>'required'
            ,'quantity'   =>'required | numeric'
           ]);
 
@@ -82,8 +81,9 @@ class ProductController extends Controller
            $products=Product::create($product);
 
            if($products)
-//             return $this->apiResponse([$products,$user],'DONE', 200);
-                return response()->json($products);
+
+           return response()->json($products);
+          //  return $this->apiResponse([$products,$user],'DONE', 200);
             }
 
             return $this->apiResponse(null,'Error', 404);
@@ -103,8 +103,8 @@ class ProductController extends Controller
          $product=Product::find($id);
 
            if($product)
-//             return $this->apiResponse($product,'DONE', 200);
-                return response()->json($product);
+           return response()->json($product);
+            // return $this->apiResponse($product,'DONE', 200);
 
             return $this->apiResponse(null,'Error', 404);
 
@@ -132,12 +132,12 @@ class ProductController extends Controller
     public function update(Request $request, Product $product)
     {
           $user=auth()->user();
-          if($user->role=="manager"){
+          if($user->role=="manager"||$user->role=='admin'){
            $product=$product->update($request->all());
 
            if($product)
-//             return $this->apiResponse($product,'DONE', 200);
-                return response()->json($product);
+            return response()->json($product);
+           // return $this->apiResponse($product,'DONE', 200);
 
             }
 
@@ -156,7 +156,7 @@ class ProductController extends Controller
     public function destroy($id)
     {
         $user=auth()->user();
-        if($user->role=="manager"){
+        if($user->role=="manager" ||$user->role='admin'){
         $product=Product::find($id);
         if(!$product)
         {
@@ -165,8 +165,8 @@ class ProductController extends Controller
 
         $delete=$product->delete();
         if($delete)
-//          return $this->apiResponse(null,'DONE', 200);
-             return response()->json($product);
+        return response()->json(Product::get());
+         //return $this->apiResponse(null,'DONE', 200);
        }
 
          return $this->apiResponse(null,'Error', 404);
@@ -178,12 +178,14 @@ class ProductController extends Controller
     public function getProductsbyCategory($category_id)
     {
 
+        $user=auth()->user();
+        if($user->role=="manager" ||$user->role='admin'){
         $category=Category::find($category_id);
-
         $products= $category->product()->get();
         if($products)
-//         return $this->apiResponse($products,'DONE', 200);
-             return response()->json($products);
+        return response()->json($products);
+        //return $this->apiResponse($products,'DONE', 200);
+        }
 
         return $this->apiResponse(null,'Error', 404);
 
