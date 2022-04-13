@@ -19,7 +19,7 @@ class ProductController extends Controller
 
     public function index()
     {
-        
+
         $products=Product::get();
         if($products)
         return response()->json($products);

@@ -76,7 +76,7 @@ middleware('auth:sanctum');
 //----------------------------------------------------------------------
 //-----------------------Admin View Orders------------------------------
 Route::resource('orders',OrderController::class)->middleware('auth:sanctum');
-Route::get('order-history',[OrderController::class,'orderhistory']);
+Route::get('order-history',[OrderController::class,'orderhistory'])->middleware('auth:sanctum');
 //----------------------------------------------------------------------
 // Route::resource('/categories', CategoryController::class);
 
