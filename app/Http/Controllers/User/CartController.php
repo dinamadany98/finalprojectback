@@ -53,10 +53,20 @@ class CartController extends Controller
      */
     public function store(Request $request)
     {
-        $userid=1;
-        $input=$request->all();
-        $input['user_id']=$userid;
-        $cart=Cart::create($input);
+
+        $selectcartprod=Cart::where("product_id",$request["product_id"])->get();
+        if(count($selectcartprod)){
+            Cart::where('product_id','=',$request["product_id"])->increment('prod_qty',$request["prod_qty"]);
+     
+        }else
+        {
+            $userid=1;
+            $input=$request->all();
+            $input['user_id']=$userid;
+            $cart=Cart::create($input); 
+        }
+        
+      
         /*
         $user=auth()->user();
         if($user->role=="user"){
