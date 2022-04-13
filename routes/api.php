@@ -63,7 +63,7 @@ Route::delete("/logout", [AuthController::class,'logout'])
 Route::resource('/categories', CategoryController::class)->
 middleware('auth:sanctum');
 
-Route::apiResource('/OrderItem',OrderItemController::class);
+//Route::apiResource('/OrderItem',OrderItemController::class);
 
 Route::resource('products',ProductController::class)->
 middleware('auth:sanctum');
@@ -75,16 +75,15 @@ Route::get('view-user/{id}',[DashboardController::class,'viewuser'])->
 middleware('auth:sanctum');
 //----------------------------------------------------------------------
 //-----------------------Admin View Orders------------------------------
-Route::resource('orders',OrderController::class);
+Route::resource('orders',OrderController::class)->middleware('auth:sanctum');
 Route::get('order-history',[OrderController::class,'orderhistory']);
 //----------------------------------------------------------------------
 // Route::resource('/categories', CategoryController::class);
 
-Route::apiResource('/OrderItem',OrderItemController::class);
+Route::apiResource('/OrderItem',OrderItemController::class)->middleware('auth:sanctum');
 
 Route::put('/updatestatus/{orderid}',[OrderItemController::class,"updatestatus"]);
 
-Route::resource('products',ProductController::class);
 
 Route::get('getproducts/{id}',[ProductController::class,'getProductsbyCategory'])
 ->middleware('auth:sanctum');
