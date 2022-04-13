@@ -24,6 +24,26 @@ class FrontendController extends Controller
             return $this->apiResponse([$categories, $featured_product, $user], 'Error home page category or product not found', 404);
         }
     }
+    public function getallcategory()
+    {
+
+            $category = Category::all();
+            if ($category) {
+                return response()->json($category);
+            } else {
+                return $this->apiResponse(null, 'Error', 404);
+            }
+    }
+    public function getallproduct()
+    {
+
+            $products = Product::get();
+            if ($products)
+                return response()->json($products);
+
+            return $this->apiResponse(null, 'Error', 404);
+        }
+    
 
     public function viewcategory($slug)
     {
@@ -45,11 +65,16 @@ class FrontendController extends Controller
             if (Product::where('slug', $prod_slug)->exists()) {
                 $products=Product::where('slug',$prod_slug)->first();
                 return $this->apiResponse($products, 'DONE', 404);
+
+
             } else {
+                // return response()->json($category);
+
                 return $this->apiResponse(null, 'prod slug not found', 404);
             }
         } else {
             return $this->apiResponse(null, 'category slug not found', 404);
         }
     }
+
 }

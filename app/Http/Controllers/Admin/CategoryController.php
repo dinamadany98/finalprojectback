@@ -23,7 +23,7 @@ class CategoryController extends Controller
     public function index()
     {
         $user=auth()->user();
-        if($user->role=="manager" || $user->role=="admin"){
+        if($user->role=="manager" || $user->role=="admin" ){
     $category = Category::all();
         if($category){
             return response()->json($category);
