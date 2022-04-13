@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
 use App\Http\Controllers\Api\ApiResponseTrait;
+use Illuminate\Support\Facades\Auth;
 
 class CategoryController extends Controller
 {
@@ -21,12 +22,15 @@ class CategoryController extends Controller
 
     public function index()
     {
-        $category = Category::all();
+        $user=auth()->user();
+        if($user->role=="manager" || $user->role=="admin"){
+    $category = Category::all();
         if($category){
-            return $this->apiResponse($category,'DONE', 201);
+            return response()->json($category);
         }else{
             return $this->apiResponse(null,'Error', 404);
         }
+    }
     }
 
     /**
@@ -49,7 +53,7 @@ class CategoryController extends Controller
     {
 
         $user=auth()->user();
-        if($user->role=="manager"){
+        if($user->role=="manager" || $user->role=="admin"){
 
          $category = new Category();
         $filename='';
@@ -59,6 +63,7 @@ class CategoryController extends Controller
             $filename = time().'.'.$ext;
             $file->move('assets/uploads/category',$filename);
             $category->image = $filename;
+            dd($filename);
         }
         $category->image = $filename;
 
@@ -73,7 +78,7 @@ class CategoryController extends Controller
         $category->description = $request->input('description');
         $category->save();
         if($category){
-        return $this->apiResponse($category,'DONE', 201);
+            return response()->json($category);
         }
 
          }
@@ -93,7 +98,7 @@ class CategoryController extends Controller
 
         $category = Category::find($id);
         if($category){
-            return $this->apiResponse($category,'DONE', 201);
+            return response()->json($category);
         }
 
 
@@ -110,10 +115,10 @@ class CategoryController extends Controller
     public function edit($id)
     {
         $user=auth()->user();
-        if($user->role=="manager"){
+        if($user->role=="manager" || $user->role=="admin"){
         $category = Category::find($id);
         if($category){
-            return $this->apiResponse($category,'DONE', 201);
+            return response()->json($category);
         }
          }
             return $this->apiResponse(null,'Error', 404);
@@ -130,7 +135,7 @@ class CategoryController extends Controller
     public function update(Request $request, $id)
     {
         $user=auth()->user();
-        if($user->role=="manager"){
+        if($user->role=="manager" || $user->role=="admin"){
         $category = Category::find($id);
         if($request->hasFile('image')){
             $path = 'assets/uploads/category'.$category->image;
@@ -149,7 +154,7 @@ class CategoryController extends Controller
         $category->description = $request->input('description');
         $category->update();
         if($category){
-            return $this->apiResponse($category,'DONE', 201);
+            return response()->json($category);
         }
          }
             return $this->apiResponse(null,'Error', 404);
@@ -165,7 +170,7 @@ class CategoryController extends Controller
     public function destroy($id)
     {
         $user=auth()->user();
-        if($user->role=="manager"){
+        if($user->role=="manager" || $user->role=="admin"){
         $category = Category::find($id);
         if($category->image){
             $path = 'assets/uploads/category'.$category->image;

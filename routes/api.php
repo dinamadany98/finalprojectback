@@ -5,14 +5,16 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\User\CartController;
+use App\Http\Controllers\User\UserController;
+use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\ProductController;
-use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\User\WishlistController;
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\OrderItemController;
 use App\Http\Controllers\Frontend\RatingController;
 use App\Http\Controllers\Frontend\ReviewController;
 use App\Http\Controllers\Frontend\FrontendController;
-use App\Http\Controllers\User\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -66,8 +68,17 @@ Route::apiResource('/OrderItem',OrderItemController::class);
 Route::resource('products',ProductController::class)->
 middleware('auth:sanctum');
 Route::apiResource('/users',UserController::class);
-
-Route::resource('/categories', CategoryController::class);
+//-------------------------Admin View Users ----------------------------
+Route::get('usersAdmin',[DashboardController::class,'users'])->
+middleware('auth:sanctum');
+Route::get('view-user/{id}',[DashboardController::class,'viewuser'])->
+middleware('auth:sanctum');
+//----------------------------------------------------------------------
+//-----------------------Admin View Orders------------------------------
+Route::resource('orders',OrderController::class);
+Route::get('order-history',[OrderController::class,'orderhistory']);
+//----------------------------------------------------------------------
+// Route::resource('/categories', CategoryController::class);
 
 Route::apiResource('/OrderItem',OrderItemController::class);
 
