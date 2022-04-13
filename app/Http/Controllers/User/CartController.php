@@ -19,8 +19,6 @@ class CartController extends Controller
     public function index()
     { 
         $current_user_id=1;
-        $user=User::find($current_user_id);
-           $cart=$user->products()->get();
           $cart_details=Cart::where('user_id',$current_user_id)->get();
         return $cart_details;
         /*
@@ -55,6 +53,11 @@ class CartController extends Controller
      */
     public function store(Request $request)
     {
+        $userid=1;
+        $input=$request->all();
+        $input['user_id']=$userid;
+        $cart=Cart::create($input);
+        /*
         $user=auth()->user();
         if($user->role=="user"){
 
@@ -67,7 +70,8 @@ class CartController extends Controller
         }
 
             return $this->apiResponse(null,'Error', 404);
-    }
+    */
+        }
 
     /**
      * Display the specified resource.
