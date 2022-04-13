@@ -62,6 +62,7 @@ class OrderController extends Controller
     public function show($id)
     {
         $user=auth()->user();
+        dd($user);
         if($user->role=="admin"){
             $orders = Order::where('id',$id)->first();
             $order_items = OrderItem::where('order_id',$orders->id)->first();
@@ -108,6 +109,6 @@ class OrderController extends Controller
      */
     public function destroy($id)
     {
-        
+
     }
 }
