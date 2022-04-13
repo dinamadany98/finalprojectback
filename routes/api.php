@@ -90,8 +90,8 @@ Route::get('getproducts/{id}',[ProductController::class,'getProductsbyCategory']
 ->middleware('auth:sanctum');
 
 
-Route::resource('cart',CartController::class)
-->middleware('auth:sanctum');
+Route::resource('cart',CartController::class);
+//->middleware('auth:sanctum');
 
 Route::delete('cartuser',[CartController::class,'deletecart'])
 ->middleware('auth:sanctum');

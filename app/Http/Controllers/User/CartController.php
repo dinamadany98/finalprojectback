@@ -17,7 +17,13 @@ class CartController extends Controller
 
     use ApiResponseTrait;
     public function index()
-    {
+    { 
+        $current_user_id=1;
+        $user=User::find($current_user_id);
+           $cart=$user->products()->get();
+          $cart_details=Cart::where('user_id',$current_user_id)->get();
+        return $cart_details;
+        /*
          $current_user=auth()->user();
         if($current_user->role=="user"){
            $user=User::find($current_user->id);
@@ -28,7 +34,7 @@ class CartController extends Controller
         }
 
         return $this->apiResponse(null,'Error', 404);
-
+*/
     }
 
     /**

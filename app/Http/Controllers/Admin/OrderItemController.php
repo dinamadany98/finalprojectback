@@ -40,7 +40,7 @@ return $arr;
     }
     public function store(Request $request)
     {
-        $input["user_id"]=$request["user_id"];
+        $input["user_id"]=1;
         $input["fname"]=$request["fname"];
         $input["lname"]=$request["lname"];
         $input["email"]=$request["email"];
@@ -51,6 +51,7 @@ return $arr;
         $input["state"]=$request["state"];
         $input["country"]=$request["country"];
         $input["pincode"]=$request["pincode"];
+        $input["tracking_no"]=$request["tracking_no"];
         $input["message"]=$request["message"];
         $stor=Order::create($input);
         $orders=Order::all()->pluck('id')->last(); 
