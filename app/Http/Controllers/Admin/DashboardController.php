@@ -16,11 +16,25 @@ class DashboardController extends Controller
         return response()->json($users);
     }
     }
-    public function viewuser($id)
+    public function show($id)
     {
-        $user=auth()->user();
-        if($user->role=="admin"){
-        $user = User::find($id);
+        $userAuth=auth()->user();
+        if($userAuth->role=="admin"){
+            $user = User::where('id',$id)->with('Order')->first();
+            if($user){
+                return response()->json($user);
+            }else{
+                return $this->apiResponse(null,'Error', 404);
+            }
+        }
+    }
+    public function update($id , Request $request)
+    {
+        $userAuth=auth()->user();
+        if($userAuth->role=="admin"){
+            $user = User::find($id);
+            $user->role = $request->input('role');
+            $user->update();
         return response()->json($user);
         }
     }

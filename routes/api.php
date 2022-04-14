@@ -71,8 +71,9 @@ Route::apiResource('/users',UserController::class);
 //-------------------------Admin View Users ----------------------------
 Route::get('usersAdmin',[DashboardController::class,'users'])->
 middleware('auth:sanctum');
-Route::get('view-user/{id}',[DashboardController::class,'viewuser'])->
+Route::get('view-user/{id}',[DashboardController::class,'show'])->
 middleware('auth:sanctum');
+Route::put('update-user/{id}',[DashboardController::class,'update'])->middleware('auth:sanctum');
 //----------------------------------------------------------------------
 //-----------------------Admin View Orders------------------------------
 Route::resource('orders',OrderController::class);
