@@ -56,13 +56,14 @@ class CartController extends Controller
 
         $selectcartprod=Cart::where("product_id",$request["product_id"])->get();
         if(count($selectcartprod)){
-            Cart::where('product_id','=',$request["product_id"])->increment('prod_qty',$request["prod_qty"]);
+            Cart::where('product_id','=',$request["product_id"])->increment('prod_qty',1);
      
         }else
         {
             $userid=1;
             $input=$request->all();
             $input['user_id']=$userid;
+            $input['prod_qty']=1;
             $cart=Cart::create($input); 
         }
         
@@ -81,6 +82,27 @@ class CartController extends Controller
 
             return $this->apiResponse(null,'Error', 404);
     */
+        }
+
+        public function  decrement($prodid)
+        {
+    
+            $selectcartprod=Cart::where("product_id",$prodid)->get();
+            if(count($selectcartprod)){
+                Cart::where('product_id','=',$prodid)->decrement('prod_qty',1);
+         
+            }
+
+        }
+        public function  increment($prodid)
+        {
+    
+            $selectcartprod=Cart::where("product_id",$prodid)->get();
+            if(count($selectcartprod)){
+                Cart::where('product_id','=',$prodid)->increment('prod_qty',1);
+         
+            }
+
         }
 
     /**
@@ -134,6 +156,12 @@ class CartController extends Controller
      */
     public function destroy($id)
     {
+
+        $userid=1;
+        $cart=Cart::where('user_id',$userid)->find($id);
+        $delete=$cart->delete();
+        
+        /*
         $user=auth()->user();
         if($user->role=="user"){
          $cart=Cart::where('user_id',$user->id)->find($id);
@@ -143,17 +171,20 @@ class CartController extends Controller
         }
 
          return $this->apiResponse(null,'Error', 404);
+         */
     }
 
       public function deletecart()
       {
-         $user=auth()->user();
-
-         $delete=Cart::where('user_id',$user->id)->delete();
-
+         //$user=auth()->user();
+         $userid=1;
+         $delete=Cart::where('user_id',$userid)->delete();
+/*
          if($delete)
         return $this->apiResponse(null,'DONE', 200);
         return $this->apiResponse(null,'Error', 404);
-
+*/
        }
+       
 }
+ 

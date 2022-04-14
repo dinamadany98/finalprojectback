@@ -93,8 +93,11 @@ Route::get('getproducts/{id}',[ProductController::class,'getProductsbyCategory']
 Route::resource('cart',CartController::class);
 //->middleware('auth:sanctum');
 
-Route::delete('cartuser',[CartController::class,'deletecart'])
-->middleware('auth:sanctum');
+
+Route::post('increment/{prodid}',[CartController::class,'increment']);
+Route::post('cart/{prodid}',[CartController::class,'decrement']);
+Route::delete('cartuser',[CartController::class,'deletecart']);
+//->middleware('auth:sanctum');
 
 Route::resource('wishlist',WishlistController::class)
 ->middleware('auth:sanctum');
