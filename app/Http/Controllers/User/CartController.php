@@ -65,6 +65,7 @@ class CartController extends Controller
             $userid=1;
             $input=$request->all();
             $input['user_id']=$userid;
+            $input['product_id']=$request["id"];
             $input['prod_qty']=1;
             $cart=Cart::create($input); 
         }
