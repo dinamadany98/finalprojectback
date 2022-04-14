@@ -6,7 +6,7 @@ use App\Http\Controllers\Api\ApiResponseTrait;
 use Illuminate\Http\Request;
 use App\Models\Cart;
 use App\Models\User;
-
+use App\Models\Product;
 class CartController extends Controller
 {
     /**
@@ -54,9 +54,10 @@ class CartController extends Controller
     public function store(Request $request)
     {
         
-
+       $quantity=Product::where('id','=',$request["id"])->value('quantity');
+       $cartcountaty=Cart::where("product_id",$request["id"])->value("prod_qty");
         $selectcartprod=Cart::where("product_id",$request["id"])->get();
-   
+    if($quantity>$cartcountaty)
         if(count($selectcartprod)){
             Cart::where('product_id','=',$request["id"])->increment('prod_qty',1);
      
