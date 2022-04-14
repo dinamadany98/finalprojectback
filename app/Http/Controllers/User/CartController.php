@@ -53,10 +53,12 @@ class CartController extends Controller
      */
     public function store(Request $request)
     {
+        
 
-        $selectcartprod=Cart::where("product_id",$request["product_id"])->get();
+        $selectcartprod=Cart::where("product_id",$request["id"])->get();
+   
         if(count($selectcartprod)){
-            Cart::where('product_id','=',$request["product_id"])->increment('prod_qty',1);
+            Cart::where('product_id','=',$request["id"])->increment('prod_qty',1);
      
         }else
         {
