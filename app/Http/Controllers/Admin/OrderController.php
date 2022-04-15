@@ -17,7 +17,7 @@ class OrderController extends Controller
     public function index()
     {
         $user=auth()->user();
-        if($user->role=="admin"){
+        if($user->role=="admin" ||$user->role=="manager"){
             $orders= Order::where('status','0')->get();
             return response()->json($orders);
         }
@@ -26,7 +26,7 @@ class OrderController extends Controller
     public function orderhistory()
     {
         $user=auth()->user();
-        if($user->role=="admin"){
+        if($user->role=="admin" ||$user->role=="manager"){
             $orders= Order::where('status','1')->get();
             return response()->json($orders);
         }
@@ -62,7 +62,7 @@ class OrderController extends Controller
     public function show($id)
     {
         $user=auth()->user();
-        if($user->role=="admin"){
+        if($user->role=="admin" ||$user->role=="manager"){
             $orders = Order::where('id',$id)->first();
             $order_items = OrderItem::where('order_id',$orders->id)->first();
             return response()->json([$orders,$order_items]);
@@ -92,7 +92,7 @@ class OrderController extends Controller
     public function update(Request $request, $id)
     {
         $user=auth()->user();
-        if($user->role=="admin"){
+        if($user->role=="admin" ||$user->role=="manager"){
             $orders = Order::find($id);
             $orders->status = $request->input('order_status');
             $orders->update();
@@ -108,6 +108,6 @@ class OrderController extends Controller
      */
     public function destroy($id)
     {
-        
+
     }
 }

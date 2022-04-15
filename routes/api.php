@@ -78,7 +78,6 @@ middleware('auth:sanctum');
 Route::resource('orders',OrderController::class)->middleware('auth:sanctum');
 Route::get('order-history',[OrderController::class,'orderhistory'])->middleware('auth:sanctum');
 //----------------------------------------------------------------------
-// Route::resource('/categories', CategoryController::class);
 
 Route::apiResource('/OrderItem',OrderItemController::class)->middleware('auth:sanctum');
 
@@ -99,4 +98,15 @@ Route::resource('wishlist',WishlistController::class)
 ->middleware('auth:sanctum');
 
 Route::delete('wishlistuser',[WishlistController::class,'deletewishlist'])
+->middleware('auth:sanctum');
+
+/////dashboard admin*******
+
+Route::get('/numberusers',[DashboardController::class,'users_number'])
+->middleware('auth:sanctum');
+
+Route::get('/numbercustomers',[DashboardController::class,'customers_number'])
+->middleware('auth:sanctum');
+
+Route::get('/todayorders',[DashboardController::class,'orders'])
 ->middleware('auth:sanctum');

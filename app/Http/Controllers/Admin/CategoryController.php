@@ -24,7 +24,7 @@ class CategoryController extends Controller
     {
         $user=auth()->user();
         if($user->role=="manager" || $user->role=="admin"){
-    $category = Category::all();
+          $category = Category::all();
         if($category){
             return response()->json($category);
         }else{
@@ -55,6 +55,8 @@ class CategoryController extends Controller
         $user=auth()->user();
         if($user->role=="manager" || $user->role=="admin"){
 
+          //  return response()->json($request);
+
          $category = new Category();
         $filename='';
         if($request->hasFile('image')){
@@ -63,9 +65,8 @@ class CategoryController extends Controller
             $filename = time().'.'.$ext;
             $file->move('assets/uploads/category',$filename);
             $category->image = $filename;
-            dd($filename);
         }
-        $category->image = $filename;
+        $category->image = $request['image'];
 
         $request->validate([
             'name'=>'required|string',
