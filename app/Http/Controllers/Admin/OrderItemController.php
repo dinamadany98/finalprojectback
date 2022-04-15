@@ -94,7 +94,12 @@ return $arr;
          //dd($Order);
          return $Order;
     }
-
+    public function getorderforspasificuser()
+    {
+        $userid=1;
+        $orders=Order::where("user_id",$userid)->get();
+        return $orders;
+    }
 
 
     public function update(Request $request, OrderItem $OrderItem)
