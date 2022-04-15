@@ -28,7 +28,7 @@ class ProductController extends Controller
             return $this->apiResponse(null,'Error', 404);
 
         }
-    
+
 
     /**
      * Show the form for creating a new resource.
@@ -101,7 +101,6 @@ class ProductController extends Controller
     public function show($id)
     {
          $product=Product::find($id);
-
            if($product)
            return response()->json($product);
             // return $this->apiResponse($product,'DONE', 200);

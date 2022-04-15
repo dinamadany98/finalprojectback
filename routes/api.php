@@ -67,8 +67,8 @@ Route::get('/getallproduct', [FrontendController::class, 'getallproduct']);
 
 //Route::apiResource('/OrderItem',OrderItemController::class);
 
-Route::resource('products',ProductController::class)->
-middleware('auth:sanctum');
+Route::resource('products',ProductController::class)->middleware('auth:sanctum');
+// Route::get('productdetails',[ ProductController::class,'show'])->middleware('auth:sanctum');
 Route::apiResource('/users',UserController::class)->middleware('auth:sanctum');
 //-------------------------Admin View Users ----------------------------
 Route::get('usersAdmin',[DashboardController::class,'users'])->

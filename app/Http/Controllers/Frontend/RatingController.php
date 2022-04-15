@@ -21,10 +21,8 @@ class RatingController extends Controller
         $prod_id = $request->input('product_id');
         $product_check = Product::where('id',$prod_id)->first();
         if($product_check){
-            $verified_purchase = Order::where('orders.user_id','2')
-            ->join('order_items','orders.id','order_items.order_id')
+            $verified_purchase = Order::where('orders.user_id','2')->join('order_items','orders.id','order_items.order_id')
             ->where('order_items.product_id',$prod_id)->get();
-
             if($verified_purchase->count() > 0){
                 $existing_rating = Rating::where('user_id','2')->where('product_id',$prod_id)->first();
                 if($existing_rating)
