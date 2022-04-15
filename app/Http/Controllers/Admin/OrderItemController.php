@@ -79,18 +79,21 @@ return $arr;
 
 
 
-    public function show($userid)
+    public function show()
     {
+           
+        
+    }
+    public function getuserorder()
+    {
+        $userid=1;
         $user=User::find($userid);
          $data=$user->Order()->get()->pluck("id");
         $Order=OrderItem::whereIn("order_id",$data)->get();
         //$d= $data->productss()->get();
          //dd($Order);
          return $Order;
-           
-        
     }
-
 
 
 

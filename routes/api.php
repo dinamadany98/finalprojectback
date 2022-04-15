@@ -81,7 +81,7 @@ Route::get('order-history',[OrderController::class,'orderhistory']);
 // Route::resource('/categories', CategoryController::class);
 
 Route::apiResource('/OrderItem',OrderItemController::class);
-
+Route::get('/getuserorder',[OrderItemController::class,"getuserorder"]);
 Route::put('/updatestatus/{orderid}',[OrderItemController::class,"updatestatus"]);
 
 Route::resource('products',ProductController::class);
