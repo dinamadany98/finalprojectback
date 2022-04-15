@@ -102,7 +102,7 @@ class ProductController extends Controller
 
            if($product)
 //             return $this->apiResponse($product,'DONE', 200);
-                return response()->json($products);
+                return response()->json($product);
 
             return $this->apiResponse(null,'Error', 404);
 
@@ -135,7 +135,7 @@ class ProductController extends Controller
 
            if($product)
 //             return $this->apiResponse($product,'DONE', 200);
-                return response()->json($products);
+                return response()->json($product);
 
             }
 
@@ -164,7 +164,7 @@ class ProductController extends Controller
         $delete=$product->delete();
         if($delete)
 //          return $this->apiResponse(null,'DONE', 200);
-             return response()->json($products);
+             return response()->json($product);
        }
 
          return $this->apiResponse(null,'Error', 404);
