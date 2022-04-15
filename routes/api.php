@@ -81,7 +81,8 @@ Route::get('order-history',[OrderController::class,'orderhistory']);
 // Route::resource('/categories', CategoryController::class);
 
 Route::apiResource('/OrderItem',OrderItemController::class);
-
+Route::get('/getuserorder',[OrderItemController::class,"getuserorder"]);
+Route::get('/getorderforspasificuser',[OrderItemController::class,"getorderforspasificuser"]);
 Route::put('/updatestatus/{orderid}',[OrderItemController::class,"updatestatus"]);
 
 Route::resource('products',ProductController::class);
@@ -93,11 +94,14 @@ Route::get('getproducts/{id}',[ProductController::class,'getProductsbyCategory']
 Route::resource('cart',CartController::class);
 //->middleware('auth:sanctum');
 
+
+Route::post('increment/{prodid}',[CartController::class,'increment']);
+Route::post('cart/{prodid}',[CartController::class,'decrement']);
 Route::delete('cartuser',[CartController::class,'deletecart']);
-// ->middleware('auth:sanctum');
+//->middleware('auth:sanctum');
 
 Route::resource('wishlist',WishlistController::class);
-// ->middleware('auth:sanctum');
+//->middleware('auth:sanctum');
 
 Route::delete('wishlistuser',[WishlistController::class,'deletewishlist']);
-// ->middleware('auth:sanctum');
+//->middleware('auth:sanctum');

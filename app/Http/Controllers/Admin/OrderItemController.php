@@ -13,7 +13,7 @@ class OrderItemController extends Controller
 {
     public function index()
     {
-      
+
         $OrderItem=OrderItem::get();
         $orders=Order::all();
         $arr=[];
@@ -21,12 +21,12 @@ class OrderItemController extends Controller
 
             $data=$value->productss()->get();
             $data2=$data->pluck("pivot.order_id")[0];
-            
+
             $data3=$data->pluck("pivot.product_id");
            $OrderItem=OrderItem::whereIn('product_id',$data3)->
            where('order_id',$data2)
            ->get();
-        
+
            // $OrderItem=OrderItem::where(['order_id'=>$data->order_id,'product_id'=>$data->product_id])->get();
           // $datas=$data->join('order_items', 'data.order_id', '=', 'order_items.order_id');
           // dd($OrderItem);
@@ -40,7 +40,7 @@ return $arr;
     }
     public function store(Request $request)
     {
-        $input["user_id"]=1;
+        $input["user_id"]=20;
         $input["fname"]=$request["fname"];
         $input["lname"]=$request["lname"];
         $input["email"]=$request["email"];
@@ -54,7 +54,7 @@ return $arr;
         $input["tracking_no"]=$request["tracking_no"];
         $input["message"]=$request["message"];
         $stor=Order::create($input);
-        $orders=Order::all()->pluck('id')->last(); 
+        $orders=Order::all()->pluck('id')->last();
       $cart=Cart::get();
       foreach($cart as $key => $value){
        $price=Product::where('id','=',$value->product_id)->value('selling_price');
@@ -68,8 +68,8 @@ return $arr;
             'total_price'=>$totalprice,
         ]);
       }
-      Cart::where('user_id',1)->delete();
-      
+      Cart::where('user_id',20)->delete();
+
         if($stor){
             return response()->json([
                 "msg"=>"done"
@@ -79,29 +79,37 @@ return $arr;
 
 
 
-    public function show($userid)
+    public function show()
     {
+
+
+    }
+    public function getuserorder()
+    {
+        $userid=20;
         $user=User::find($userid);
          $data=$user->Order()->get()->pluck("id");
         $Order=OrderItem::whereIn("order_id",$data)->get();
         //$d= $data->productss()->get();
          //dd($Order);
          return $Order;
-           
-        
     }
-
-
+    public function getorderforspasificuser()
+    {
+        $userid=20;
+        $orders=Order::where("user_id",$userid)->get();
+        return $orders;
+    }
 
 
     public function update(Request $request, OrderItem $OrderItem)
     {
-        
+
          $input= $request->all();
         $input["total_price"]=$request["quantity"] * $request["price"];
-      
+
        $inputs=$OrderItem->update($input);
-       
+
         if($inputs){
             return response()->json([
                 "msg"=>"done"
@@ -116,12 +124,12 @@ return $arr;
                     "msg"=>"done"
                 ]);
             }
-           
-       
-        }    
+
+
+        }
         public function updatestatus($id)
         {
             Order::where('id','=',$id)->update(array('status' => '1'));
-      
+
         }
 }
