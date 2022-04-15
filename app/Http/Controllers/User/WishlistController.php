@@ -39,16 +39,18 @@ class WishlistController extends Controller
      */
     public function store(Request $request)
     {
-        $user=auth()->user();
-        if($user->role=="user"){
-            $input=$request->all();
-            $input['user_id']=$user->id;
-            $wishlist=Wishlist::create($input);
-            if($wishlist)
-            return $this->apiResponse($wishlist,'DONE', 200);
+        //$user=auth()->user();
+        //if($user->role=="user"){
+            $input["product_id"]=$request["id"];
+            $input['user_id']=1;
+            $selectwishlist=Wishlist::where('user_id',$input['user_id'])
+            ->where('product_id',$input["product_id"])->get();
+            
+            if(!count($selectwishlist)){
+                $wishlist=Wishlist::create($input);
+                
         }
 
-            return $this->apiResponse(null,'Error', 404);
     }
 
     /**
@@ -86,6 +88,7 @@ class WishlistController extends Controller
      */
     public function destroy($id)
     {
+         
         $user=auth()->user();
         if($user->role=="user"){
          $wishlist=Wishlist::where('user_id',$user->id)->find($id);
@@ -99,15 +102,12 @@ class WishlistController extends Controller
 
     public function deletewishlist()
     {
-        $user=auth()->user();
-        if($user->role=="user"){
+        //$user=auth()->user();
+        //if($user->role=="user"){
 
-        $delete=Wishlist::where('user_id',$user->id)->delete();
-        if($delete)
-        return $this->apiResponse(null,'DONE', 200);
-        }
-        return $this->apiResponse(null,'Error', 404);
-
+        $delete=Wishlist::where('user_id',1)->delete();
+      
+        //}
     }
 
 
