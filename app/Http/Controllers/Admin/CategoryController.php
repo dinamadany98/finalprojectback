@@ -23,8 +23,8 @@ class CategoryController extends Controller
     public function index()
     {
         $user=auth()->user();
-        if($user->role=="manager" || $user->role=="admin"){
-          $category = Category::all();
+        if($user->role=="admin" ||$user->role=="manager"){
+        $category = Category::all();
         if($category){
             return response()->json($category);
         }else{
@@ -52,12 +52,7 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
 
-        $user=auth()->user();
-        if($user->role=="manager" || $user->role=="admin"){
-
-          //  return response()->json($request);
-
-         $category = new Category();
+        $category = new Category();
         $filename='';
         if($request->hasFile('image')){
             $file = $request->file('image');
@@ -65,8 +60,9 @@ class CategoryController extends Controller
             $filename = time().'.'.$ext;
             $file->move('assets/uploads/category',$filename);
             $category->image = $filename;
-        }
-        $category->image = $request['image'];
+
+
+        $category->image = $filename;
 
         $request->validate([
             'name'=>'required|string',
@@ -82,9 +78,9 @@ class CategoryController extends Controller
             return response()->json($category);
         }
 
-         }
+        }
 
-         return $this->apiResponse(null,'Erorr', 404);
+        return $this->apiResponse(null,'Erorr', 404);
 
     }
 
@@ -103,7 +99,7 @@ class CategoryController extends Controller
         }
 
 
-         return $this->apiResponse(null,'Error', 404);
+        return $this->apiResponse(null,'Error', 404);
 
     }
 
@@ -121,7 +117,7 @@ class CategoryController extends Controller
         if($category){
             return response()->json($category);
         }
-         }
+        }
             return $this->apiResponse(null,'Error', 404);
 
     }
@@ -149,15 +145,15 @@ class CategoryController extends Controller
             $file->move('assets/uploads/category',$filename);
             $category->image = $filename;
         }
-
         $category->name = $request->input('name');
         $category->slug = $request->input('slug');
         $category->description = $request->input('description');
+        // dd($category);
         $category->update();
         if($category){
             return response()->json($category);
         }
-         }
+        }
             return $this->apiResponse(null,'Error', 404);
 
     }

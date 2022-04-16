@@ -23,7 +23,6 @@ class ProductController extends Controller
         $products=Product::get();
         if($products)
         return response()->json($products);
-            return $this->apiResponse($products,'DONE', 200);
 
             return $this->apiResponse(null,'Error', 404);
 
@@ -81,7 +80,6 @@ class ProductController extends Controller
            $products=Product::create($product);
 
            if($products)
-
            return response()->json($products);
           //  return $this->apiResponse([$products,$user],'DONE', 200);
             }
