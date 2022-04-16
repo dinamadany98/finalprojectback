@@ -17,14 +17,17 @@ class RatingController extends Controller
     public function store(Request $request)
     {
             // replace number 2 with Auth::id();
-        $stars_rated = $request->input('stars_rated');
-        $prod_id = $request->input('product_id');
+        $stars_rated = $request['stars_rated'];
+        $prod_id = $request['product_id'];
         $product_check = Product::where('id',$prod_id)->first();
+
         if($product_check){
-            $verified_purchase = Order::where('orders.user_id','2')->join('order_items','orders.id','order_items.order_id')
+            $verified_purchase = Order::where('orders.user_id', '2')->join('order_items','orders.id','order_items.order_id')
             ->where('order_items.product_id',$prod_id)->get();
+            // dd($product_check);
+
             if($verified_purchase->count() > 0){
-                $existing_rating = Rating::where('user_id','2')->where('product_id',$prod_id)->first();
+                $existing_rating = Rating::where('user_id', '2')->where('product_id',$prod_id)->first();
                 if($existing_rating)
                 {
                     $existing_rating->stars_rated = $stars_rated ;
@@ -36,7 +39,9 @@ class RatingController extends Controller
                         'stars_rated' => $stars_rated
                     ]);
                 }
-                return $this->apiResponse(null,'DONE', 200);
+        return response()->json('done');
+
+                // return $this->apiResponse(null,'DONE', 200);
             }else{
                 return $this->apiResponse(null,'not authorized to rate product you didnt try it', 403);
             }
