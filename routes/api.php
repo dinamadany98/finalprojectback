@@ -38,8 +38,8 @@ Route::get('/view-category/{slug}',[FrontendController::class,'viewcategory'])
 Route::get('/category/{cat_slug}/{prod_slug}',[FrontendController::class,'viewproduct'])
 ->middleware('auth:sanctum');
 
-Route::post('add-rating',[RatingController::class,'store'])
-->middleware('auth:sanctum');
+Route::post('add-rating',[RatingController::class,'store']);
+//->middleware('auth:sanctum');
 
 Route::post('/add-review',[ReviewController::class,'store'])
 ->middleware('auth:sanctum');
