@@ -62,8 +62,6 @@ class OrderController extends Controller
     {
 
             $orders = Order::where('id',$id)->with('OrderItem')->with('productss')->first();
-            // dd($orders);
-            // $order_items = OrderItem::where('order_id',$orders->id)->first();
             return response()->json($orders);
 
         // return response()->json($order_items);

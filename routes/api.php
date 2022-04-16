@@ -78,7 +78,7 @@ Route::put('update-user/{id}',[DashboardController::class,'update'])->middleware
 //-----------------------Admin View Orders------------------------------
 Route::resource('orders',OrderController::class);
 Route::get('order-history',[OrderController::class,'orderhistory'])->
-middleware('auth:sanctum');;
+middleware('auth:sanctum');
 //----------------------------------------------------------------------
 Route::apiResource('/OrderItem',OrderItemController::class);
 

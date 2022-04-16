@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Api\ApiResponseTrait;
 use App\Models\User;
+use App\Models\Order;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class DashboardController extends Controller
 {
+    use ApiResponseTrait;
     public function users()
     {
         $user=auth()->user();
@@ -20,9 +23,10 @@ class DashboardController extends Controller
     {
         $userAuth=auth()->user();
         if($userAuth->role=="admin"){
-            $user = User::where('id',$id)->with('Order')->first();
-            if($user){
-                return response()->json($user);
+            $order = Order::where('user_id',$id)->max('id');
+            $getOrder = Order::where('id',$order)->with('user')->first();
+            if($getOrder){
+                return response()->json($getOrder);
             }else{
                 return $this->apiResponse(null,'Error', 404);
             }
