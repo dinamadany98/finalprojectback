@@ -23,7 +23,6 @@ class ProductController extends Controller
         $products=Product::get();
         if($products)
         return response()->json($products);
-            return $this->apiResponse($products,'DONE', 200);
 
             return $this->apiResponse(null,'Error', 404);
 
