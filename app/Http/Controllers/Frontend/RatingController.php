@@ -20,20 +20,21 @@ class RatingController extends Controller
         $stars_rated = $request->input('stars_rated');
         $prod_id = $request->input('product_id');
         $product_check = Product::where('id',$prod_id)->first();
+         
         if($product_check){
-            $verified_purchase = Order::where('orders.user_id','2')
+            $verified_purchase = Order::where('orders.user_id','1')
             ->join('order_items','orders.id','order_items.order_id')
             ->where('order_items.product_id',$prod_id)->get();
 
             if($verified_purchase->count() > 0){
-                $existing_rating = Rating::where('user_id','2')->where('product_id',$prod_id)->first();
+                $existing_rating = Rating::where('user_id','1')->where('product_id',$prod_id)->first();
                 if($existing_rating)
                 {
                     $existing_rating->stars_rated = $stars_rated ;
                     $existing_rating->update();
                 }else{
                     Rating::create([
-                        'user_id'=> '2',
+                        'user_id'=> '1',
                         'product_id'=> $prod_id,
                         'stars_rated' => $stars_rated
                     ]);

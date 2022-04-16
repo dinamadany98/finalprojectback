@@ -20,12 +20,12 @@ class ReviewController extends Controller
         //replace 2 with Auth::id()
         if($product){
             $prod_id = $product->id;
-            $review = Review::where('user_id','2')->where('product_id',$prod_id)->first();
+            $review = Review::where('user_id','1')->where('product_id',$prod_id)->first();
             if($review)
             {
                 return $this->apiResponse('already has review you can edit it','DONE', 200);
             }else{
-                $verified_purchase = Order::where('orders.user_id','2')
+                $verified_purchase = Order::where('orders.user_id','1')
                 ->join('order_items','orders.id','order_items.order_id')
                 ->where('order_items.product_id',$prod_id)->get();
                 return $this->apiResponse([$product,$verified_purchase],'DONE', 200);
@@ -42,7 +42,7 @@ class ReviewController extends Controller
             $user_review = $request->input('user_review');
             $new_review = Review::create(
                 [
-                    'user_id'=>'2',
+                    'user_id'=>'1',
                     'product_id'=>$prod_id,
                     'user_review'=>$user_review
                 ]);

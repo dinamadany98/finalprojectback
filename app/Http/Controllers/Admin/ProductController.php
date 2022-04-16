@@ -187,4 +187,14 @@ class ProductController extends Controller
 
 
     }
+  
+    public function searchproduct($name)
+    {
+        
+       $product=Product::where('name', 'Like', '%' . $name . '%')->get();
+       return $product;
+
+    }
+
+
 }
