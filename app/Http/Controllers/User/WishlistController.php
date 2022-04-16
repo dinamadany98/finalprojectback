@@ -24,7 +24,9 @@ class WishlistController extends Controller
              $user=User::find($current_user->id);
              $wishlist=$user->products_wishlist()->get();
              if($wishlist)
-             return $this->apiResponse($wishlist,'DONE', 200);
+                return response()->json($wishlist);
+
+            //  return $this->apiResponse($wishlist,'DONE', 200);
            }
 
             return $this->apiResponse(null,'Error', 404);
@@ -45,7 +47,9 @@ class WishlistController extends Controller
             $input['user_id']=$user->id;
             $wishlist=Wishlist::create($input);
             if($wishlist)
-            return $this->apiResponse($wishlist,'DONE', 200);
+                // return $this->apiResponse($wishlist,'DONE', 200);
+                return response()->json($wishlist);
+
         }
 
             return $this->apiResponse(null,'Error', 404);
@@ -91,7 +95,9 @@ class WishlistController extends Controller
          $wishlist=Wishlist::where('user_id',$user->id)->find($id);
          $delete=$wishlist->delete();
          if($delete)
-         return $this->apiResponse(null,'DONE', 200);
+                return response()->json($wishlist);
+
+        //  return $this->apiResponse(null,'DONE', 200);
         }
 
          return $this->apiResponse(null,'Error', 404);
@@ -104,6 +110,7 @@ class WishlistController extends Controller
 
         $delete=Wishlist::where('user_id',$user->id)->delete();
         if($delete)
+
         return $this->apiResponse(null,'DONE', 200);
         }
         return $this->apiResponse(null,'Error', 404);

@@ -43,15 +43,11 @@ class AuthController extends Controller
     }
 
          public function login(Request $request){
-
-
           $user= User::where('email',$request['email'])->firstOrFail();
            if($user){
             $checkpassword=Hash::check($request['password'], $user->password);
-
             if($checkpassword){
              $token = $user->createToken('auth_token')->plainTextToken;
-
              return response()->json(
             [
                 "msg"=>"done",
