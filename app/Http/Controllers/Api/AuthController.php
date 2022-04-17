@@ -18,14 +18,16 @@ class AuthController extends Controller
         $input = $request->validate([
             'name'=>'required | string',
             'email'=>'required | string | email | unique:users,email',
-            'password' => 'required ' ,
-            'role' =>'required'
+            'password' => 'required | min:6' ,
+
         ]);
+
         $user= User::create([
             'name'=>$input["name"],
             'email'=>$input["email"],
             'password' =>Hash::make($input["password"]),
-            'role' =>$input['role']
+            'role'=>$request['role']
+
         ]);
 
         $token = $user->createToken('usertoken')->plainTextToken;
@@ -41,16 +43,19 @@ class AuthController extends Controller
     }
 
          public function login(Request $request){
-
-         $user= User::where('email',$request['email'])->firstOrFail();
-        
-         $token = $user->createToken('auth_token')->plainTextToken;
-
-        return response()->json(
+          $user= User::where('email',$request['email'])->firstOrFail();
+           if($user){
+            $checkpassword=Hash::check($request['password'], $user->password);
+            if($checkpassword){
+             $token = $user->createToken('auth_token')->plainTextToken;
+             return response()->json(
             [
                 "msg"=>"done",
-                "token"=>$token
+                "token"=>$token,
+                "role"=>$user->role
             ]);
+             }
+           }
     }
 
 

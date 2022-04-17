@@ -20,6 +20,7 @@ class RatingController extends Controller
         $stars_rated = $request['stars_rated'];
         $prod_id = $request['product_id'];
         $product_check = Product::where('id',$prod_id)->first();
+
         if($product_check){
             $verified_purchase = Order::where('orders.user_id', Auth::id())->join('order_items','orders.id','order_items.order_id')
             ->where('order_items.product_id',$prod_id)->get();

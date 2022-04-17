@@ -9,15 +9,32 @@ class UserController extends Controller
 {
     public function index()
     {
-        $userid=1;
-        $user=User::find($userid);
-        return $user;
-    
+        $user=auth()->user();
+       // $user=User::find($userid);
+        return response()->json($user);
+
     }
+
+
+
+    public function show($userid)
+    {
+        $user=auth()->user();
+        $user=User::find($userid);
+        return response()->json($user);
+
+       /* $userid = auth()->user();
+
+        return response()->json($userid);*/
+
+    }
+
+
+
     public function update(Request $request, User $user)
     {
         $user->update($request->all());
-        
+
     }
     public function destroy(User $user)
     {

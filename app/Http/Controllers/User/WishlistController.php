@@ -19,12 +19,12 @@ class WishlistController extends Controller
 
     public function index()
     {
-           // $current_user=auth()->user();
-          // if($current_user->role=="user"){
-             $user=User::find(1);
+           $current_user=auth()->user();
+          if($current_user->role=="user"){
+             $user=User::find($current_user->id);
              $wishlist=$user->products_wishlist()->get();
              return $wishlist;
-            
+          }
     }
 
 
@@ -36,18 +36,18 @@ class WishlistController extends Controller
      */
     public function store(Request $request)
     {
-        //$user=auth()->user();
-        //if($user->role=="user"){
+        $user=auth()->user();
+        if($user->role=="user"){
             $input["product_id"]=$request["id"];
-            $input['user_id']=1;
+            $input['user_id']=$user->id;
             $selectwishlist=Wishlist::where('user_id',$input['user_id'])
             ->where('product_id',$input["product_id"])->get();
-            
+
             if(!count($selectwishlist)){
                 $wishlist=Wishlist::create($input);
-                
-        }
 
+        }
+    }
     }
 
     /**
@@ -85,24 +85,24 @@ class WishlistController extends Controller
      */
     public function destroy($id)
     {
-         
-       // $user=auth()->user();
-       // if($user->role=="user"){
-         $wishlist=Wishlist::where('user_id',1)
+
+       $user=auth()->user();
+       if($user->role=="user"){
+         $wishlist=Wishlist::where('user_id',$user->id)
                             ->where('product_id',$id)->delete();
-         
-        //  $delete=$wishlist->delete();
-       //}
+
+         $delete=$wishlist->delete();
+       }
     }
 
     public function deletewishlist()
     {
-        //$user=auth()->user();
-        //if($user->role=="user"){
+        $user=auth()->user();
+        if($user->role=="user"){
 
-        $delete=Wishlist::where('user_id',1)->delete();
-      
-        //}
+        $delete=Wishlist::where('user_id',$user->id)->delete();
+
+        }
     }
 
 
