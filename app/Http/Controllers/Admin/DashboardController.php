@@ -60,8 +60,9 @@ class DashboardController extends Controller
 
     public function orders()
     {
-        $currentdate=Carbon::now()->format('Y-m-d');
-       $orders=Order::where([DATE_FORMAT('created_at','Y-m-d')=>$currentdate,'status'=>1])->count();
+        //$currentdate=Carbon::now()->format('Y-m-d');
+      // $orders=Order::where([DATE_FORMAT('created_at','Y-m-d')=>$currentdate,'status'=>1])->count();
+      $orders=Order::count();
         //->count();
         //return response()->json(1);
         return response()->json($orders);
