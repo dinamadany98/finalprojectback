@@ -38,11 +38,11 @@ Route::get('/view-category/{slug}',[FrontendController::class,'viewcategory'])
 Route::get('/category/{cat_slug}/{prod_slug}',[FrontendController::class,'viewproduct'])
 ->middleware('auth:sanctum');
 
-Route::post('/add-rating',[RatingController::class,'store']);
-// ->middleware('auth:sanctum');
+Route::post('/add-rating',[RatingController::class,'store'])
+->middleware('auth:sanctum');
 
-Route::post('/add-review',[ReviewController::class,'store']);
-//->middleware('auth:sanctum');
+Route::post('/add-review',[ReviewController::class,'store'])
+->middleware('auth:sanctum');
 
 Route::get('/add-review/{slug}/userreview',[ReviewController::class,'add'])
 ->middleware('auth:sanctum');
@@ -91,19 +91,19 @@ Route::get('getproducts/{id}',[ProductController::class,'getProductsbyCategory']
 ->middleware('auth:sanctum');
 
 
-Route::resource('cart',CartController::class);
-//->middleware('auth:sanctum');
+Route::resource('cart',CartController::class)
+->middleware('auth:sanctum');
 
 
 Route::post('increment/{prodid}',[CartController::class,'increment']);
 Route::post('cart/{prodid}',[CartController::class,'decrement']);
-Route::delete('cartuser',[CartController::class,'deletecart']);
-//->middleware('auth:sanctum');
+Route::delete('cartuser',[CartController::class,'deletecart'])
+->middleware('auth:sanctum');
 
-Route::resource('wishlist',WishlistController::class);
-//->middleware('auth:sanctum');
+Route::resource('wishlist',WishlistController::class)
+->middleware('auth:sanctum');
 
-Route::delete('wishlistuser',[WishlistController::class,'deletewishlist']);
-//->middleware('auth:sanctum');
+Route::delete('wishlistuser',[WishlistController::class,'deletewishlist'])
+->middleware('auth:sanctum');
 
 Route::get('search/{name}',[ProductController::class,'searchproduct']);

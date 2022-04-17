@@ -20,12 +20,12 @@ class ReviewController extends Controller
         //replace 2 with Auth::id()
         if($product){
             $prod_id = $product->id;
-            $review = Review::where('user_id','1')->where('product_id',$prod_id)->first();
+            $review = Review::where('user_id',Auth::id())->where('product_id',$prod_id)->first();
             if($review)
             {
                 return $this->apiResponse('already has review you can edit it','DONE', 200);
             }else{
-                $verified_purchase = Order::where('orders.user_id','1')
+                $verified_purchase = Order::where('orders.user_id',Auth::id())
                 ->join('order_items','orders.id','order_items.order_id')
                 ->where('order_items.product_id',$prod_id)->get();
                 return $this->apiResponse([$product,$verified_purchase],'DONE', 200);
@@ -42,7 +42,7 @@ class ReviewController extends Controller
             $user_review = $request->input('user_review');
             $new_review = Review::create(
                 [
-                    'user_id'=>'1',
+                    'user_id'=>Auth::id(),
                     'product_id'=>$prod_id,
                     'user_review'=>$user_review
                 ]);
@@ -54,11 +54,11 @@ class ReviewController extends Controller
 
     public function edit($slug)
     {
-        $product = Product::where('slug',$slug)->where('status','1')->first();
+        $product = Product::where('slug',$slug)->where('status',Auth::id())->first();
         if($product)
         {
             $prod_id = $product->id;
-            $review  = Review::where('user_id','2')->where('product_id',$prod_id)->first();
+            $review  = Review::where('user_id',Auth::id())->where('product_id',$prod_id)->first();
             if($review)
             {
                 return $this->apiResponse($review,'DONE', 200);
@@ -76,7 +76,7 @@ class ReviewController extends Controller
         $user_review = $request->input('user_review');
         if($user_review !=''){
             $review_id = $request->input('review_id');
-            $review = Review::where('id',$review_id)->where('user_id','2')->first();
+            $review = Review::where('id',$review_id)->where('user_id',Auth::id())->first();
             if($review){
                 $review->user_review = $request->input('user_review');
                 $review->update();
