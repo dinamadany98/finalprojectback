@@ -52,7 +52,8 @@ class AuthController extends Controller
             [
                 "msg"=>"done",
                 "token"=>$token,
-                "role"=>$user->role
+                "role"=>$user->role,
+                 "name"=>$user->name
             ]);
              }
            }
