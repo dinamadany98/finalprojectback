@@ -37,13 +37,13 @@ class FrontendController extends Controller
     public function getallproduct()
     {
 
-            $products = Product::get();
+            $products = Product::where('quantity','>',0)->get();
             if ($products)
                 return response()->json($products);
 
             return $this->apiResponse(null, 'Error', 404);
         }
-    
+
 
     public function viewcategory($slug)
     {

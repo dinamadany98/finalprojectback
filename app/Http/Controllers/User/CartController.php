@@ -20,7 +20,7 @@ class CartController extends Controller
     use ApiResponseTrait;
     public function index()
     {
-        $current_user_id=20;
+        $current_user_id=Auth::id();
           $cart_details=Cart::where('user_id',$current_user_id)->get();
         return $cart_details;
         /*
@@ -65,7 +65,7 @@ class CartController extends Controller
 
         }else
         {
-            $userid=20;
+            $userid= Auth::id();
             $input=$request->all();
             $input['user_id']=$userid;
             $input['product_id']=$request["id"];
@@ -163,7 +163,7 @@ class CartController extends Controller
     public function destroy($id)
     {
 
-        $userid=20;
+        $userid= Auth::id();
         $cart=Cart::where('user_id',$userid)->find($id);
         $delete=$cart->delete();
 
@@ -183,7 +183,7 @@ class CartController extends Controller
       public function deletecart()
       {
          //$user=auth()->user();
-         $userid=20;
+         $userid= Auth::id();
          $delete=Cart::where('user_id',$userid)->delete();
 /*
          if($delete)

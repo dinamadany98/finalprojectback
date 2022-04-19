@@ -9,9 +9,9 @@ class UserController extends Controller
 {
     public function index()
     {
-        $user=auth()->user();
-       // $user=User::find($userid);
-        return response()->json($user);
+        // $user=auth()->user();
+        $userid= auth()->user();
+        return response()->json($userid);
 
     }
 
@@ -19,14 +19,11 @@ class UserController extends Controller
 
     public function show($userid)
     {
-        $user=auth()->user();
-        $user=User::find($userid);
-        return response()->json($user);
+        // $user=auth()->user();
+        $userid = auth()->user();
+        return response()->json($userid);
 
-       /* $userid = auth()->user();
-
-        return response()->json($userid);*/
-
+     
     }
 
 

@@ -9,6 +9,8 @@ use App\Models\Order;
 use App\Models\User;
 use App\Models\Cart;
 use App\Models\Product;
+use Illuminate\Support\Facades\Auth;
+
 class OrderItemController extends Controller
 {
     public function index()
@@ -40,7 +42,7 @@ return $arr;
     }
     public function store(Request $request)
     {
-        $input["user_id"]=20;
+        $input["user_id"]= Auth::id();
         $input["fname"]=$request["fname"];
         $input["lname"]=$request["lname"];
         $input["email"]=$request["email"];
@@ -51,7 +53,7 @@ return $arr;
         $input["state"]=$request["state"];
         $input["country"]=$request["country"];
         $input["pincode"]=$request["pincode"];
-        $input["tracking_no"]=$request["tracking_no"];
+        $input["tracking_no"]=random_int(100000, 999999);;
         $input["message"]=$request["message"];
         $stor=Order::create($input);
         $orders=Order::all()->pluck('id')->last();
@@ -68,7 +70,7 @@ return $arr;
             'total_price'=>$totalprice,
         ]);
       }
-      Cart::where('user_id',20)->delete();
+      Cart::where('user_id', Auth::id())->delete();
 
         if($stor){
             return response()->json([
@@ -86,7 +88,8 @@ return $arr;
     }
     public function getuserorder()
     {
-        $userid=20;
+        $userid= Auth::id();
+        // dd($userid);
         $user=User::find($userid);
          $data=$user->Order()->get()->pluck("id");
         $Order=OrderItem::whereIn("order_id",$data)->get();
@@ -96,7 +99,9 @@ return $arr;
     }
     public function getorderforspasificuser()
     {
-        $userid=20;
+        $userid= Auth::id();
+        // dd($userid);
+
         $orders=Order::where("user_id",$userid)->get();
         return $orders;
     }
