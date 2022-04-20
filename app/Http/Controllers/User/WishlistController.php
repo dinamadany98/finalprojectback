@@ -88,10 +88,9 @@ class WishlistController extends Controller
 
        $user=auth()->user();
        if($user->role=="user"){
-         $wishlist=Wishlist::where('user_id',$user->id)
-                            ->where('product_id',$id)->delete();
+         $wishlist=Wishlist::where('user_id',$user->id)->where('product_id',$id)->delete();
 
-         $delete=$wishlist->delete();
+        //  $delete=$wishlist->delete();
        }
     }
 

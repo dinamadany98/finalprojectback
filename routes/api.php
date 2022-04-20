@@ -133,3 +133,7 @@ Route::get('/sales',[DashboardController::class,'sales'])
 
 Route::get('/rat',[DashboardController::class,'rating'])
 ->middleware('auth:sanctum');
+
+Route::get('/mail',[OrderItemController::class,'sendmail']);
+
+

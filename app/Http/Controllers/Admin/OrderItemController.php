@@ -10,7 +10,8 @@ use App\Models\User;
 use App\Models\Cart;
 use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
-
+use App\Mail\accessmail;
+use Illuminate\Support\Facades\Mail;
 class OrderItemController extends Controller
 {
     public function index()
@@ -71,6 +72,10 @@ return $arr;
         ]);
       }
       Cart::where('user_id', Auth::id())->delete();
+        // $details = $value->product_id;
+        $details = $totalprice;
+        Mail::to($input["email"])->send(new accessmail($details));
+        return response()->json('done');
 
         if($stor){
             return response()->json([
@@ -129,12 +134,17 @@ return $arr;
                     "msg"=>"done"
                 ]);
             }
-
-
         }
         public function updatestatus($id)
         {
             Order::where('id','=',$id)->update(array('status' => '1'));
 
         }
+        // public function sendmail(Request $request,){
+        // $input = $request->all();
+
+        // $details = 'phpppppppppppp';
+        // Mail::to('dodyymadany98@gmail.com ')->send(new accessmail($details));
+        // return response()->json('done');
+        // }
 }
