@@ -8,6 +8,7 @@ use App\Models\Order;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
+use App\Models\Rating;
 
 class DashboardController extends Controller
 {
@@ -60,18 +61,30 @@ class DashboardController extends Controller
 
     public function orders()
     {
-        //$currentdate=Carbon::now()->format('Y-m-d');
-      // $orders=Order::where([DATE_FORMAT('created_at','Y-m-d')=>$currentdate,'status'=>1])->count();
-      $orders=Order::count();
-        //->count();
-        //return response()->json(1);
-        return response()->json($orders);
+        $currentdate=date('Y-m-d');
+
+         $order= Order::whereDate('created_at',$currentdate)->get();
+         $order=$order->where('status',1)->count();
+         return response()->json($order);
     }
 
     public function sales()
     {
         $totalprice=Order::where('status',1)->sum('total_price');
         return response()->json($totalprice);
+    }
+
+    public function rating()
+    {
+        //$r=Rating::groupBy('stars_rated','product_id')->get();
+
+         $r=$this->hasMany(Rating::class)
+       ->select('stars_rated', 'product_id')
+       ->selectRaw('count(*) as rate')
+       ->groupBy('stars_rated', 'product_id');
+        return response()->json($r);
+
+
     }
 
 

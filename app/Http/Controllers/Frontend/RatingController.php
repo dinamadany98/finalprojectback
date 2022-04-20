@@ -27,14 +27,14 @@ class RatingController extends Controller
             // dd($product_check);
 
             if($verified_purchase->count() > 0){
-                $existing_rating = Rating::where('user_id', '2')->where('product_id',$prod_id)->first();
+                $existing_rating = Rating::where('user_id', '3')->where('product_id',$prod_id)->first();
                 if($existing_rating)
                 {
                     $existing_rating->stars_rated = $stars_rated ;
                     $existing_rating->update();
                 }else{
                     Rating::create([
-                        'user_id'=> '2',
+                        'user_id'=> '3',
                         'product_id'=> $prod_id,
                         'stars_rated' => $stars_rated
                     ]);

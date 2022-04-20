@@ -125,3 +125,6 @@ Route::get('/todayorders',[DashboardController::class,'orders'])
 ->middleware('auth:sanctum');
 Route::get('/sales',[DashboardController::class,'sales'])
 ->middleware('auth:sanctum');
+
+Route::get('/rat',[DashboardController::class,'rating'])
+->middleware('auth:sanctum');
