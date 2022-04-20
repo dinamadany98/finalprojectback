@@ -63,8 +63,7 @@ class DashboardController extends Controller
     {
         $currentdate=date('Y-m-d');
 
-         $order= Order::whereDate('created_at',$currentdate)->get();
-         $order=$order->where('status',1)->count();
+         $order= Order::whereDate('created_at',$currentdate)->count();
          return response()->json($order);
     }
 

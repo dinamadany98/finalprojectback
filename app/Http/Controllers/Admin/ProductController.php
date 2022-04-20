@@ -134,7 +134,6 @@ class ProductController extends Controller
 
            if($product)
             return response()->json($product);
-           // return $this->apiResponse($product,'DONE', 200);
 
             }
 
@@ -163,7 +162,6 @@ class ProductController extends Controller
         $delete=$product->delete();
         if($delete)
         return response()->json(Product::get());
-         //return $this->apiResponse(null,'DONE', 200);
        }
 
          return $this->apiResponse(null,'Error', 404);
@@ -188,4 +186,15 @@ class ProductController extends Controller
 
 
     }
+
+    public function searchproduct($name)
+    {
+
+
+       $product=Product::where('name', 'Like', '%' . $name . '%')->where('quantity','>',0)->get();
+       return $product;
+
+    }
+
+
 }

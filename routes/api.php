@@ -38,7 +38,7 @@ Route::get('/view-category/{slug}',[FrontendController::class,'viewcategory'])
 Route::get('/category/{cat_slug}/{prod_slug}',[FrontendController::class,'viewproduct'])
 ->middleware('auth:sanctum');
 
-Route::post('add-rating',[RatingController::class,'store'])
+Route::post('/add-rating',[RatingController::class,'store'])
 ->middleware('auth:sanctum');
 
 Route::post('/add-review',[ReviewController::class,'store'])
@@ -67,8 +67,7 @@ Route::get('/getallproduct', [FrontendController::class, 'getallproduct']);
 
 //Route::apiResource('/OrderItem',OrderItemController::class);
 
-Route::resource('products',ProductController::class)->
-middleware('auth:sanctum');
+
 Route::resource('products',ProductController::class)->middleware('auth:sanctum');
 // Route::get('productdetails',[ ProductController::class,'show'])->middleware('auth:sanctum');
 Route::apiResource('/users',UserController::class)->middleware('auth:sanctum');
@@ -84,6 +83,9 @@ Route::resource('orders',OrderController::class)->middleware('auth:sanctum');
 Route::get('order-history',[OrderController::class,'orderhistory'])->middleware('auth:sanctum');
 //----------------------------------------------------------------------
 
+// Route::apiResource('/OrderItem',OrderItemController::class);
+Route::get('/getuserorder',[OrderItemController::class,"getuserorder"])->middleware('auth:sanctum');
+Route::get('/getorderforspasificuser',[OrderItemController::class,"getorderforspasificuser"])->middleware('auth:sanctum');
 Route::apiResource('/OrderItem',OrderItemController::class)->middleware('auth:sanctum');
 
 Route::put('/updatestatus/{orderid}',[OrderItemController::class,"updatestatus"]);
@@ -101,9 +103,11 @@ Route::get('getproducts/{id}',[ProductController::class,'getProductsbyCategory']
 ->middleware('auth:sanctum');
 
 
-Route::resource('cart',CartController::class)
-->middleware('auth:sanctum');
+Route::resource('cart',CartController::class)->middleware('auth:sanctum');
 
+
+Route::post('increment/{prodid}',[CartController::class,'increment']);
+Route::post('cart/{prodid}',[CartController::class,'decrement']);
 Route::delete('cartuser',[CartController::class,'deletecart'])
 ->middleware('auth:sanctum');
 
@@ -113,6 +117,7 @@ Route::resource('wishlist',WishlistController::class)
 Route::delete('wishlistuser',[WishlistController::class,'deletewishlist'])
 ->middleware('auth:sanctum');
 
+Route::get('search/{name}',[ProductController::class,'searchproduct']);
 /////dashboard admin*******
 
 Route::get('/numberusers',[DashboardController::class,'users_number'])

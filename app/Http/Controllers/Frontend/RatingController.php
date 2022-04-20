@@ -22,19 +22,19 @@ class RatingController extends Controller
         $product_check = Product::where('id',$prod_id)->first();
 
         if($product_check){
-            $verified_purchase = Order::where('orders.user_id', '2')->join('order_items','orders.id','order_items.order_id')
+            $verified_purchase = Order::where('orders.user_id', Auth::id())->join('order_items','orders.id','order_items.order_id')
             ->where('order_items.product_id',$prod_id)->get();
             // dd($product_check);
 
             if($verified_purchase->count() > 0){
-                $existing_rating = Rating::where('user_id', '3')->where('product_id',$prod_id)->first();
+                $existing_rating = Rating::where('user_id', Auth::id())->where('product_id',$prod_id)->first();
                 if($existing_rating)
                 {
                     $existing_rating->stars_rated = $stars_rated ;
                     $existing_rating->update();
                 }else{
                     Rating::create([
-                        'user_id'=> '3',
+                        'user_id'=> Auth::id(),
                         'product_id'=> $prod_id,
                         'stars_rated' => $stars_rated
                     ]);

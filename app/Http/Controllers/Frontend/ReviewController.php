@@ -54,7 +54,7 @@ class ReviewController extends Controller
 
     public function edit($slug)
     {
-        $product = Product::where('slug',$slug)->where('status','1')->first();
+        $product = Product::where('slug',$slug)->where('status',Auth::id())->first();
         if($product)
         {
             $prod_id = $product->id;

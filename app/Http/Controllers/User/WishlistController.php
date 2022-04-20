@@ -19,17 +19,12 @@ class WishlistController extends Controller
 
     public function index()
     {
-            $current_user=auth()->user();
-           if($current_user->role=="user"){
+           $current_user=auth()->user();
+          if($current_user->role=="user"){
              $user=User::find($current_user->id);
              $wishlist=$user->products_wishlist()->get();
-             if($wishlist)
-                return response()->json($wishlist);
-
-            //  return $this->apiResponse($wishlist,'DONE', 200);
-           }
-
-            return $this->apiResponse(null,'Error', 404);
+             return $wishlist;
+          }
     }
 
 
@@ -43,16 +38,16 @@ class WishlistController extends Controller
     {
         $user=auth()->user();
         if($user->role=="user"){
-            $input=$request->all();
+            $input["product_id"]=$request["id"];
             $input['user_id']=$user->id;
-            $wishlist=Wishlist::create($input);
-            if($wishlist)
-                // return $this->apiResponse($wishlist,'DONE', 200);
-                return response()->json($wishlist);
+            $selectwishlist=Wishlist::where('user_id',$input['user_id'])
+            ->where('product_id',$input["product_id"])->get();
+
+            if(!count($selectwishlist)){
+                $wishlist=Wishlist::create($input);
 
         }
-
-            return $this->apiResponse(null,'Error', 404);
+    }
     }
 
     /**
@@ -90,17 +85,14 @@ class WishlistController extends Controller
      */
     public function destroy($id)
     {
-        $user=auth()->user();
-        if($user->role=="user"){
-         $wishlist=Wishlist::where('user_id',$user->id)->find($id);
+
+       $user=auth()->user();
+       if($user->role=="user"){
+         $wishlist=Wishlist::where('user_id',$user->id)
+                            ->where('product_id',$id)->delete();
+
          $delete=$wishlist->delete();
-         if($delete)
-                return response()->json($wishlist);
-
-        //  return $this->apiResponse(null,'DONE', 200);
-        }
-
-         return $this->apiResponse(null,'Error', 404);
+       }
     }
 
     public function deletewishlist()
@@ -109,12 +101,8 @@ class WishlistController extends Controller
         if($user->role=="user"){
 
         $delete=Wishlist::where('user_id',$user->id)->delete();
-        if($delete)
 
-        return $this->apiResponse(null,'DONE', 200);
         }
-        return $this->apiResponse(null,'Error', 404);
-
     }
 
 
