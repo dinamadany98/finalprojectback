@@ -55,11 +55,11 @@ class CartController extends Controller
      */
     public function store(Request $request)
     {
-
+    
        $quantity=Product::where('id','=',$request["id"])->value('quantity');
        $cartcountaty=Cart::where("product_id",$request["id"])->value("prod_qty");
         $selectcartprod=Cart::where("product_id",$request["id"])->get();
-    if($quantity>$cartcountaty)
+    if($quantity>$cartcountaty){
         if(count($selectcartprod)){
             Cart::where('product_id','=',$request["id"])->increment('prod_qty',1);
 
@@ -73,7 +73,7 @@ class CartController extends Controller
             $cart=Cart::create($input);
         }
 
-
+    }
         /*
         $user=auth()->user();
         if($user->role=="user"){
