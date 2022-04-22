@@ -7,8 +7,10 @@ use App\Models\User;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Carbon\Carbon;
 use App\Models\Rating;
+use App\Models\Product;
+use DB;
+
 
 class DashboardController extends Controller
 {
@@ -73,15 +75,66 @@ class DashboardController extends Controller
         return response()->json($totalprice);
     }
 
+
     public function rating()
     {
-        //$r=Rating::groupBy('stars_rated','product_id')->get();
 
-         $r=$this->hasMany(Rating::class)
-       ->select('stars_rated', 'product_id')
-       ->selectRaw('count(*) as rate')
-       ->groupBy('stars_rated', 'product_id');
-        return response()->json($r);
+
+         $r=Rating::join('products','ratings.product_id','products.id')
+         ->select('stars_rated', 'product_id','name','image','small_description')
+        ->selectRaw(' (count(*) * stars_rated) as rate')
+        ->selectRaw('count(*) as count')
+        ->groupBy('stars_rated', 'product_id')->get();
+
+        /*$r=$r->select('product_id')
+        ->selectRaw('sum(rate)/sum(count) as total ')
+        ->groupBy('product_id')->get();*/
+
+          $array=array();
+          $arraycount=array();
+          foreach($r as $starsrated)
+          {
+
+            if(!array_key_exists($starsrated->product_id, $array))
+            {
+                $array[$starsrated->product_id] = 0;
+            }
+
+            if(!array_key_exists($starsrated->product_id, $arraycount))
+            {
+                $arraycount[$starsrated->product_id] = 0;
+            }
+            $array[$starsrated->product_id]+=$starsrated->rate;
+            $arraycount[$starsrated->product_id]+=$starsrated->count;
+
+           }
+
+           foreach($array as $key=>$value)
+           {
+            $array[$key]/=$arraycount[$key];
+
+           }
+           $rate=array();
+           $check=array();
+          foreach($r as $starsrated)
+          {
+
+             if(!in_array($starsrated->product_id,$check)){
+                array_push($check,$starsrated->product_id);
+                 array_push($rate,
+                  [
+                    'rate'=>$array[$starsrated->product_id]*10,
+                      'name'=>$starsrated->name,
+                      'image'=>$starsrated->image,
+                      'description'=>$starsrated->small_description
+                  ]
+              );
+
+          }
+        }
+
+
+        return response()->json($rate);
 
     }
 
