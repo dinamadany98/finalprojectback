@@ -15,6 +15,8 @@ use App\Http\Controllers\Admin\OrderItemController;
 use App\Http\Controllers\Frontend\RatingController;
 use App\Http\Controllers\Frontend\ReviewController;
 use App\Http\Controllers\Frontend\FrontendController;
+use App\Http\Controllers\ForgetPasswordController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -133,6 +135,14 @@ Route::get('/sales',[DashboardController::class,'sales'])
 
 Route::get('/rat',[DashboardController::class,'rating'])
 ->middleware('auth:sanctum');
+
+////end dashboard/////////
+
+Route::post('/resetpassword',[ForgetPasswordController::class,'resetPassword']);
+Route::post('/updatepassword',[UserController::class,'updatepassword']);
+Route::get('/showuser/{id}',[UserController::class,'showuser'])->middleware('auth:sanctum');
+
+
 
 Route::get('/mail',[OrderItemController::class,'sendmail']);
 

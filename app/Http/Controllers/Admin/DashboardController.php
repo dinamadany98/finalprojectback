@@ -83,7 +83,6 @@ class DashboardController extends Controller
        ->groupBy('stars_rated', 'product_id');
         return response()->json($r);
 
-
     }
 
 
