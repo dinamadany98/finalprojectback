@@ -23,15 +23,18 @@ class UserController extends Controller
         $user=auth()->user();
         //$userid = auth()->user();
 
-        return response()->json($user);
-
 
     }
 
 
+
+
+
     public function update(Request $request, User $user)
     {
+        $request['password']= Hash::make($request["password"]);
         $user->update($request->all());
+
 
     }
 
@@ -40,6 +43,7 @@ class UserController extends Controller
         $user->delete();
 
      }
+     
 
      public function showuser($userid)
      {
