@@ -96,6 +96,14 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    public function productdetails($id)
+    {
+        $product = Product::find($id);
+        if ($product)
+            return response()->json($product);
+        return $this->apiResponse(null, 'Error', 404);
+    }
+    
     public function show($id)
     {
          $product=Product::find($id);
