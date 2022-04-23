@@ -77,4 +77,18 @@ class FrontendController extends Controller
         }
     }
 
+
+
+    public function getProductsbyCategory($category_id)
+    {
+ 
+        $category=Category::find($category_id);
+        $products= $category->product()->get();
+        if($products)
+        return response()->json($products);
+       
+
+
+    }    
+
 }

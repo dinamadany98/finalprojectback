@@ -65,6 +65,7 @@ Route::delete("/logout", [AuthController::class,'logout'])
 Route::resource('/categories', CategoryController::class);
 //->middleware('auth:sanctum');
 
+Route::get('/getProductsbyCategory/{category_id}', [FrontendController::class, 'getProductsbyCategory']);
 Route::get('/getallcategories', [FrontendController::class, 'getallcategory']);
 Route::get('/getallproduct', [FrontendController::class, 'getallproduct']);
 
