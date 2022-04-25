@@ -54,6 +54,9 @@ Route::get('/edit-review/{slug}/userreview',[ReviewController::class,'edit'])
 
 Route::put('/update-review',[ReviewController::class,'update'])
 ->middleware('auth:sanctum');
+
+Route::get('/checkreview/{prodid}',[ReviewController::class,'checkreview'])
+->middleware('auth:sanctum');
 //--------------------------------------------------------------------
 Route::post("/register",[AuthController::class,'register']);
 
