@@ -26,7 +26,8 @@ class AuthController extends Controller
             'name'=>$input["name"],
             'email'=>$input["email"],
             'password' =>Hash::make($input["password"]),
-           
+             'role'=>$input['role']
+
 
         ]);
 

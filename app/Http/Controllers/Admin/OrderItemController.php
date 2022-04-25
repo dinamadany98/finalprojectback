@@ -140,11 +140,5 @@ return $arr;
             Order::where('id','=',$id)->update(array('status' => '1'));
 
         }
-        // public function sendmail(Request $request,){
-        // $input = $request->all();
-
-        // $details = 'phpppppppppppp';
-        // Mail::to('dodyymadany98@gmail.com ')->send(new accessmail($details));
-        // return response()->json('done');
-        // }
+      
 }

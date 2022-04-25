@@ -15,6 +15,8 @@ use App\Http\Controllers\Admin\OrderItemController;
 use App\Http\Controllers\Frontend\RatingController;
 use App\Http\Controllers\Frontend\ReviewController;
 use App\Http\Controllers\Frontend\FrontendController;
+use App\Http\Controllers\ForgetPasswordController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -60,16 +62,20 @@ Route::post("/login", [AuthController::class,'login']);
 Route::delete("/logout", [AuthController::class,'logout'])
 ->middleware('auth:sanctum');
 
-Route::resource('/categories', CategoryController::class)->middleware('auth:sanctum');
+Route::resource('/categories', CategoryController::class);
+//->middleware('auth:sanctum');
 
+Route::get('/getProductsbyCategory/{category_id}', [FrontendController::class, 'getProductsbyCategory']);
 Route::get('/getallcategories', [FrontendController::class, 'getallcategory']);
 Route::get('/getallproduct', [FrontendController::class, 'getallproduct']);
 
 //Route::apiResource('/OrderItem',OrderItemController::class);
 
 
-Route::resource('products',ProductController::class)->middleware('auth:sanctum');
+// Route::resource('products',ProductController::class)->middleware('auth:sanctum');
 Route::get('productsdetails/{id}', [ProductController::class, 'productdetails']);
+Route::resource('products',ProductController::class);
+//->middleware('auth:sanctum');
 // Route::get('productdetails',[ ProductController::class,'show'])->middleware('auth:sanctum');
 Route::apiResource('/users',UserController::class)->middleware('auth:sanctum');
 //-------------------------Admin View Users ----------------------------
@@ -131,5 +137,18 @@ Route::get('/todayorders',[DashboardController::class,'orders'])
 ->middleware('auth:sanctum');
 Route::get('/sales',[DashboardController::class,'sales'])
 ->middleware('auth:sanctum');
+
+Route::get('/rateproduct',[DashboardController::class,'rating'])
+->middleware('auth:sanctum');
+
+////end dashboard/////////
+
+Route::post('/resetpassword',[ForgetPasswordController::class,'resetPassword']);
+Route::post('/updatepassword',[UserController::class,'updatepassword']);
+Route::get('/showuser/{id}',[UserController::class,'showuser'])->middleware('auth:sanctum');
+
+
+
+Route::get('/mail',[OrderItemController::class,'sendmail']);
 
 
