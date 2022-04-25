@@ -54,7 +54,7 @@ return $arr;
         $input["state"]=$request["state"];
         $input["country"]=$request["country"];
         $input["pincode"]=$request["pincode"];
-        $input["tracking_no"]=random_int(100000, 999999);;
+        $input["tracking_no"]=random_int(100000, 999999);
         $input["message"]=$request["message"];
         $stor=Order::create($input);
         $orders=Order::all()->pluck('id')->last();

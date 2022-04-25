@@ -26,7 +26,7 @@ return new class extends Migration
             $table->string('state');
             $table->string('country');
             $table->string('pincode');
-            $table->Integer('total_price');
+            //$table->Integer('total_price');
             $table->string('message')->nullable();
             $table->string('tracking_no')->nullable();
             $table->tinyInteger('status')->default('0');

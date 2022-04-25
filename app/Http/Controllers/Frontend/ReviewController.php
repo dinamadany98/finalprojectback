@@ -9,7 +9,8 @@ use App\Models\Product;
 use App\Models\Review;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+use App\Models\User;
+use App\Models\OrderItem;
 class ReviewController extends Controller
 {
     use ApiResponseTrait;
@@ -34,7 +35,16 @@ class ReviewController extends Controller
             return $this->apiResponse(null,'Page not found', 404);
         }
     }
+    public function checkreview($prodid){
+        $userid=Auth::id();
+        $user=User::find($userid);
+         $data=$user->Order()->get()->pluck("id");
+        $Order=OrderItem::whereIn("order_id",$data)->
+        where("product_id",$prodid)->get();
+         return $Order;
 
+
+    }
     public function store(Request $request){
         $prod_id = $request->input('product_id');
         $product = Product::where('id',$prod_id)->first();
