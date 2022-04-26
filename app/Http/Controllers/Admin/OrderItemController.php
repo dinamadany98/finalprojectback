@@ -54,8 +54,17 @@ return $arr;
         $input["state"]=$request["state"];
         $input["country"]=$request["country"];
         $input["pincode"]=$request["pincode"];
-        $input["tracking_no"]=random_int(100000, 999999);
+        $input["tracking_no"]='order' .' '.random_int(100000, 999999);
         $input["message"]=$request["message"];
+        $cart=Cart::get();
+        $totalpricetotal=0;
+        foreach($cart as $key => $value){
+            
+       $price=Product::where('id','=',$value->product_id)->value('selling_price');
+       Product::where('id','=',$value->product_id)->decrement('quantity',$value->prod_qty);
+            $totalpricetotal +=$price * $value->prod_qty;
+        }
+        $input["total_price"]=$totalpricetotal;
         $stor=Order::create($input);
         $orders=Order::all()->pluck('id')->last();
       $cart=Cart::get();
@@ -63,6 +72,7 @@ return $arr;
        $price=Product::where('id','=',$value->product_id)->value('selling_price');
       Product::where('id','=',$value->product_id)->decrement('quantity',$value->prod_qty);
        $totalprice=$price * $value->prod_qty;
+     
         OrderItem::create([
             'order_id'=>$orders,
             'product_id'=>$value->product_id,
@@ -140,11 +150,5 @@ return $arr;
             Order::where('id','=',$id)->update(array('status' => '1'));
 
         }
-        // public function sendmail(Request $request,){
-        // $input = $request->all();
-
-        // $details = 'phpppppppppppp';
-        // Mail::to('dodyymadany98@gmail.com ')->send(new accessmail($details));
-        // return response()->json('done');
-        // }
+      
 }

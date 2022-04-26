@@ -75,6 +75,8 @@ Route::get('/getallproduct', [FrontendController::class, 'getallproduct']);
 //Route::apiResource('/OrderItem',OrderItemController::class);
 
 
+// Route::resource('products',ProductController::class)->middleware('auth:sanctum');
+Route::get('productsdetails/{id}', [ProductController::class, 'productdetails']);
 Route::resource('products',ProductController::class);
 //->middleware('auth:sanctum');
 // Route::get('productdetails',[ ProductController::class,'show'])->middleware('auth:sanctum');
