@@ -65,21 +65,16 @@ Route::post("/login", [AuthController::class,'login']);
 Route::delete("/logout", [AuthController::class,'logout'])
 ->middleware('auth:sanctum');
 
-Route::resource('/categories', CategoryController::class);
-//->middleware('auth:sanctum');
+Route::resource('/categories', CategoryController::class)->middleware('auth:sanctum');
 
 Route::get('/getProductsbyCategory/{category_id}', [FrontendController::class, 'getProductsbyCategory']);
 Route::get('/getallcategories', [FrontendController::class, 'getallcategory']);
 Route::get('/getallproduct', [FrontendController::class, 'getallproduct']);
 
-//Route::apiResource('/OrderItem',OrderItemController::class);
 
 
-// Route::resource('products',ProductController::class)->middleware('auth:sanctum');
 Route::get('productsdetails/{id}', [ProductController::class, 'productdetails']);
-Route::resource('products',ProductController::class);
-//->middleware('auth:sanctum');
-// Route::get('productdetails',[ ProductController::class,'show'])->middleware('auth:sanctum');
+Route::resource('products',ProductController::class)->middleware('auth:sanctum');
 Route::apiResource('/users',UserController::class)->middleware('auth:sanctum');
 //-------------------------Admin View Users ----------------------------
 Route::get('usersAdmin',[DashboardController::class,'users'])->
@@ -93,7 +88,6 @@ Route::resource('orders',OrderController::class)->middleware('auth:sanctum');
 Route::get('order-history',[OrderController::class,'orderhistory'])->middleware('auth:sanctum');
 //----------------------------------------------------------------------
 
-// Route::apiResource('/OrderItem',OrderItemController::class);
 Route::get('/getuserorder',[OrderItemController::class,"getuserorder"])->middleware('auth:sanctum');
 Route::get('/getorderforspasificuser',[OrderItemController::class,"getorderforspasificuser"])->middleware('auth:sanctum');
 Route::apiResource('/OrderItem',OrderItemController::class)->middleware('auth:sanctum');
@@ -101,13 +95,7 @@ Route::apiResource('/OrderItem',OrderItemController::class)->middleware('auth:sa
 Route::put('/updatestatus/{orderid}',[OrderItemController::class,"updatestatus"]);
 
 
-// Route::resource('orders',OrderController::class);
-// Route::get('order-history',[OrderController::class,'orderhistory'])->
-// middleware('auth:sanctum');
-//----------------------------------------------------------------------
-// Route::apiResource('/OrderItem',OrderItemController::class);
 
-// Route::put('/updatestatus/{orderid}',[OrderItemController::class,"updatestatus"]);
 
 Route::get('getproducts/{id}',[ProductController::class,'getProductsbyCategory'])
 ->middleware('auth:sanctum');
