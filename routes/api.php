@@ -45,6 +45,7 @@ Route::post('/add-rating',[RatingController::class,'store'])
 
 Route::post('/add-review',[ReviewController::class,'store'])
 ->middleware('auth:sanctum');
+Route::apiResource('/reviews',ReviewController::class);
 
 Route::get('/add-review/{slug}/userreview',[ReviewController::class,'add'])
 ->middleware('auth:sanctum');

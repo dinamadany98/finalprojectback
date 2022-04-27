@@ -99,5 +99,11 @@ class ReviewController extends Controller
         }
     }
 
+    public function show($id)
+    {
 
+       $prod=Product::where('id','=',$id)->get();
+       $review = Review::where('product_id',$id)->get();
+       return $review ;
+    }
 }
